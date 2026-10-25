@@ -165,7 +165,80 @@
 <footer>
   © 2026 PADHAI
 </footer>
+<div style="max-width:700px; margin:30px auto; padding:18px;">
 
+  <h2>আজকের Practice MCQ</h2>
+
+  <div style="background:white; padding:20px; border-radius:12px;">
+
+    <p><b>1. ভারতের জাতীয় সঙ্গীতের রচয়িতা কে?</b></p>
+
+    <button class="mcq-option" onclick="checkAnswer(this, false)">
+      A) বঙ্কিমচন্দ্র চট্টোপাধ্যায়
+    </button>
+
+    <button class="mcq-option" onclick="checkAnswer(this, true)">
+      B) রবীন্দ্রনাথ ঠাকুর
+    </button>
+
+    <button class="mcq-option" onclick="checkAnswer(this, false)">
+      C) কাজী নজরুল ইসলাম
+    </button>
+
+    <button class="mcq-option" onclick="checkAnswer(this, false)">
+      D) শরৎচন্দ্র চট্টোপাধ্যায়
+    </button>
+
+    <p id="result"></p>
+
+  </div>
+</div>
+
+<style>
+.mcq-option {
+  width: 100%;
+  padding: 14px;
+  margin: 7px 0;
+  text-align: left;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+</style>
+
+<script>
+let answered = false;
+
+function checkAnswer(button, correct) {
+
+  if (answered) return;
+  answered = true;
+
+  const options = document.querySelectorAll(".mcq-option");
+  const result = document.getElementById("result");
+
+  if (correct) {
+    button.style.background = "#dcfce7";
+    button.style.border = "2px solid #16a34a";
+
+    result.innerHTML = "✅ সঠিক উত্তর!";
+    result.style.color = "green";
+
+  } else {
+    button.style.background = "#fee2e2";
+    button.style.border = "2px solid #dc2626";
+
+    options[1].style.background = "#dcfce7";
+    options[1].style.border = "2px solid #16a34a";
+
+    result.innerHTML =
+      "❌ ভুল — সঠিক উত্তর: B) রবীন্দ্রনাথ ঠাকুর";
+
+    result.style.color = "red";
+  }
+}
+</script>
 </body>
 </html>
 <div class="exam-card">
