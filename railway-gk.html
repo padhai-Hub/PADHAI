@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Railway GK - PADHAI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#1f2937;
+}
+
+header{
+  background:#2563eb;
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:18px;
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:18px;
+  color:#2563eb;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin:15px 0 20px;
+}
+
+.topic{
+  display:block;
+  background:white;
+  padding:17px;
+  margin-bottom:10px;
+  border-radius:10px;
+  text-decoration:none;
+  color:#1f2937;
+  font-weight:bold;
+  box-shadow:0 2px 7px #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚆 Railway GK</h1>
+  <p>Topic নির্বাচন করুন</p>
+</header>
+
+<div class="container">
+
+<a class="back" href="railway.html">← Railway Subjects</a>
+
+<input
+  class="search"
+  id="topicSearch"
+  type="search"
+  placeholder="Topic খুঁজুন..."
+  onkeyup="searchTopic()"
+>
+
+<div id="topics">
+
+  <a class="topic" href="#">
+    📜 History
+  </a>
+
+  <a class="topic" href="#">
+    🌍 Geography
+  </a>
+
+  <a class="topic" href="#">
+    ⚖️ Indian Polity
+  </a>
+
+  <a class="topic" href="#">
+    💰 Economics
+  </a>
+
+  <a class="topic" href="#">
+    🔬 General Science
+  </a>
+
+  <a class="topic" href="#">
+    📰 Current Affairs
+  </a>
+
+  <a class="topic" href="#">
+    🏆 Sports
+  </a>
+
+  <a class="topic" href="#">
+    📅 Important Days
+  </a>
+
+  <a class="topic" href="#">
+    📚 Static GK
+  </a>
+
+</div>
+
+</div>
+
+<script>
+function searchTopic() {
+  const input =
+    document.getElementById("topicSearch").value.toLowerCase();
+
+  const topics =
+    document.getElementsByClassName("topic");
+
+  for (let i = 0; i < topics.length; i++) {
+    const text = topics[i].textContent.toLowerCase();
+
+    if (text.includes(input)) {
+      topics[i].style.display = "block";
+    } else {
+      topics[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
