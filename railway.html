@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Railway - PADHAI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .subject {
+      background: white;
+      padding: 25px 10px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px #ddd;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .subject:active {
+      background: #eef4ff;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚆 Railway</h1>
+  <p>PADHAI</p>
+</header>
+
+<div class="container">
+
+  <a class="back" href="index.html">← Home</a>
+
+  <h2>Subject নির্বাচন করুন</h2>
+  <p class="subtitle">যে Subject পড়তে চান সেটি নির্বাচন করুন</p>
+
+  <div class="subject-grid">
+
+    <div class="subject">
+      🌍<br><br>
+      General Knowledge
+    </div>
+
+    <div class="subject">
+      ➗<br><br>
+      Mathematics
+    </div>
+
+    <div class="subject">
+      🧠<br><br>
+      Reasoning
+    </div>
+
+    <div class="subject">
+      🔬<br><br>
+      General Science
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
