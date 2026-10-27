@@ -1,114 +1,116 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Railway - PADHAI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>Railway Exams - PADHAI</title>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #1f2937;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    header {
-      background: #2563eb;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 18px;
-    }
+header {
+  background: #2563eb;
+  color: white;
+  text-align: center;
+  padding: 22px 15px;
+}
 
-    .back {
-      display: inline-block;
-      margin-bottom: 20px;
-      text-decoration: none;
-      color: #2563eb;
-      font-weight: bold;
-    }
+header h1 {
+  margin-bottom: 6px;
+}
 
-    h2 {
-      margin-bottom: 8px;
-    }
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 18px;
+}
 
-    .subtitle {
-      color: #666;
-      margin-bottom: 20px;
-    }
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .subject-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.title {
+  margin-bottom: 6px;
+}
 
-    .subject {
-      background: white;
-      padding: 25px 10px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px #ddd;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
 
-    .subject:active {
-      background: #eef4ff;
-    }
-  </style>
+.exam-card {
+  display: block;
+  background: white;
+  padding: 22px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #1f2937;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+.exam-card h2 {
+  margin-bottom: 7px;
+}
+
+.exam-card p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.exam-card:active {
+  background: #eef4ff;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <h1>🚆 Railway</h1>
-  <p>PADHAI</p>
+  <p>PADHAI - Railway Exam Preparation</p>
 </header>
 
 <div class="container">
 
-  <a class="back" href="index.html">← Home</a>
+  <a class="back" href="index.html">
+    ← Home
+  </a>
 
-  <h2>Subject নির্বাচন করুন</h2>
-  <p class="subtitle">যে Subject পড়তে চান সেটি নির্বাচন করুন</p>
+  <h2 class="title">Railway Exam নির্বাচন করুন</h2>
 
-  <div class="subject-grid">
+  <p class="subtitle">
+    যে পরীক্ষার প্রস্তুতি নিতে চান সেটি নির্বাচন করুন
+  </p>
 
-    <a href="railway-gk.html" style="text-decoration:none; color:inherit;">
-  <div class="subject">
-    🌍<br><br>
-    General Knowledge
-  </div>
-    </a>
+  <a class="exam-card" href="ntpc-ug.html">
+    <h2>🚆 RRB NTPC UG</h2>
+    <p>
+      Undergraduate / 12th Pass Level
+    </p>
+  </a>
 
-    <div class="subject">
-      ➗<br><br>
-      Mathematics
-    </div>
-
-    <div class="subject">
-      🧠<br><br>
-      Reasoning
-    </div>
-
-    <div class="subject">
-      🔬<br><br>
-      General Science
-    </div>
-
-  </div>
+  <a class="exam-card" href="group-d.html">
+    <h2>🚉 RRB Group D</h2>
+    <p>
+      Railway Level-1 Preparation
+    </p>
+  </a>
 
 </div>
 
