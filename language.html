@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Choose Language - PADHAI</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.language-box {
+  width: 90%;
+  max-width: 420px;
+  background: white;
+  padding: 30px 20px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.logo {
+  font-size: 38px;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+.tagline {
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+.help-text {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.language-btn {
+  width: 100%;
+  padding: 15px;
+  margin: 8px 0;
+  border: 2px solid #2563eb;
+  border-radius: 12px;
+  background: white;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.language-btn:active {
+  background: #2563eb;
+  color: white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="language-box">
+
+  <div class="logo">PADHAI</div>
+
+  <div class="tagline">
+    One Preparation, Many Goals
+  </div>
+
+  <h2>🌐 Choose Your Language</h2>
+
+  <div class="help-text">
+    আপনার ভাষা নির্বাচন করুন
+  </div>
+
+  <button class="language-btn" onclick="selectLanguage('bn')">
+    বাংলা
+  </button>
+
+  <button class="language-btn" onclick="selectLanguage('hi')">
+    हिन्दी
+  </button>
+
+  <button class="language-btn" onclick="selectLanguage('en')">
+    English
+  </button>
+
+</div>
+
+
+<script>
+
+function selectLanguage(language) {
+
+  localStorage.setItem("padhaiLanguage", language);
+
+  window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
