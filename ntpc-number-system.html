@@ -1,57 +1,632 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PADHAI - Number System</title>
+<title>Number System - RRB NTPC UG | PADHAI</title>
+
+<script>
+const savedLanguage = localStorage.getItem("padhaiLanguage");
+
+if (!savedLanguage) {
+  window.location.replace("language.html");
+}
+</script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    margin: 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
 }
 
 header {
-    background: #1f4e79;
-    color: white;
-    padding: 20px;
-    text-align: center;
+  background: #2563eb;
+  color: white;
+  text-align: center;
+  padding: 20px 15px;
+}
+
+header h1 {
+  margin: 0 0 5px;
+}
+
+header p {
+  margin: 0;
 }
 
 .container {
-    max-width: 800px;
-    margin: auto;
-    padding: 15px;
+  max-width: 750px;
+  margin: auto;
+  padding: 18px;
 }
 
-</style>
+.back {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
 
+.top-info {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 7px #ddd;
+}
+
+.progress {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.question-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+.question {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.option {
+  width: 100%;
+  padding: 14px;
+  margin: 7px 0;
+  text-align: left;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.option.correct {
+  background: #dcfce7;
+  border: 2px solid #16a34a;
+}
+
+.option.wrong {
+  background: #fee2e2;
+  border: 2px solid #dc2626;
+}
+
+.result {
+  margin-top: 15px;
+  font-weight: bold;
+  min-height: 25px;
+}
+
+.next-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+}
+
+.score-box {
+  display: none;
+  background: white;
+  text-align: center;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+.restart-btn {
+  padding: 13px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
-<h1>PADHAI</h1>
-
-<p>RRB NTPC UG → Mathematics → Number System</p>
-
+  <h1 id="title"></h1>
+  <p>RRB NTPC UG • Mathematics</p>
 </header>
 
 <div class="container">
 
-<h2>Number System Question Bank</h2>
+<a class="back" href="ntpc-math.html" id="backText"></a>
 
-<p>RRB NTPC UG Mathematics</p>
+<div id="quizArea">
+
+  <div class="top-info">
+    <div class="progress" id="progress"></div>
+    <div id="score"></div>
+  </div>
+
+  <div class="question-card">
+
+    <div class="question" id="question"></div>
+
+    <div id="options"></div>
+
+    <div class="result" id="result"></div>
+
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+    </button>
+
+  </div>
 
 </div>
 
-</body>
+<div class="score-box" id="scoreBox">
 
+  <h2 id="finishedText"></h2>
+
+  <p id="finalScore"></p>
+
+  <button class="restart-btn" id="restartBtn" onclick="restartQuiz()">
+  </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const language =
+localStorage.getItem("padhaiLanguage") || "bn";
+
+
+/* =========================
+   INTERFACE LANGUAGE
+========================= */
+
+const ui = {
+
+bn: {
+  title: "সংখ্যা পদ্ধতি",
+  back: "← গণিতের সব টপিক",
+  question: "প্রশ্ন",
+  score: "সঠিক",
+  correct: "✅ সঠিক উত্তর!",
+  wrong: "❌ ভুল উত্তর",
+  correctAnswer: "সঠিক উত্তর:",
+  next: "পরের প্রশ্ন →",
+  finished: "🎉 এই সেট সম্পূর্ণ হয়েছে",
+  final: "তোমার স্কোর:",
+  restart: "আবার শুরু করুন"
+},
+
+hi: {
+  title: "संख्या पद्धति",
+  back: "← गणित के सभी टॉपिक",
+  question: "प्रश्न",
+  score: "सही",
+  correct: "✅ सही उत्तर!",
+  wrong: "❌ गलत उत्तर",
+  correctAnswer: "सही उत्तर:",
+  next: "अगला प्रश्न →",
+  finished: "🎉 यह सेट पूरा हो गया",
+  final: "आपका स्कोर:",
+  restart: "फिर से शुरू करें"
+},
+
+en: {
+  title: "Number System",
+  back: "← All Mathematics Topics",
+  question: "Question",
+  score: "Correct",
+  correct: "✅ Correct!",
+  wrong: "❌ Wrong",
+  correctAnswer: "Correct answer:",
+  next: "Next Question →",
+  finished: "🎉 Set Completed",
+  final: "Your Score:",
+  restart: "Restart"
+}
+
+};
+
+
+/* =========================
+   QUESTION BANK
+========================= */
+
+const questions = [
+
+{
+bn: {
+q: "ক্ষুদ্রতম মৌলিক সংখ্যা কোনটি?",
+o: ["0", "1", "2", "3"]
+},
+hi: {
+q: "सबसे छोटी अभाज्य संख्या कौन-सी है?",
+o: ["0", "1", "2", "3"]
+},
+en: {
+q: "Which is the smallest prime number?",
+o: ["0", "1", "2", "3"]
+},
+answer: 2
+},
+
+{
+bn: {
+q: "নিচের কোন সংখ্যাটি মৌলিক সংখ্যা?",
+o: ["21", "29", "39", "51"]
+},
+hi: {
+q: "निम्नलिखित में से कौन-सी संख्या अभाज्य है?",
+o: ["21", "29", "39", "51"]
+},
+en: {
+q: "Which of the following is a prime number?",
+o: ["21", "29", "39", "51"]
+},
+answer: 1
+},
+
+{
+bn: {
+q: "প্রথম 10টি স্বাভাবিক সংখ্যার যোগফল কত?",
+o: ["45", "50", "55", "60"]
+},
+hi: {
+q: "पहली 10 प्राकृतिक संख्याओं का योग कितना है?",
+o: ["45", "50", "55", "60"]
+},
+en: {
+q: "What is the sum of the first 10 natural numbers?",
+o: ["45", "50", "55", "60"]
+},
+answer: 2
+},
+
+{
+bn: {
+q: "দুটি ক্রমিক পূর্ণসংখ্যার গুণফল 156 হলে বৃহত্তর সংখ্যাটি কত?",
+o: ["11", "12", "13", "14"]
+},
+hi: {
+q: "दो क्रमागत पूर्णांकों का गुणनफल 156 है। बड़ी संख्या क्या है?",
+o: ["11", "12", "13", "14"]
+},
+en: {
+q: "The product of two consecutive integers is 156. What is the larger integer?",
+o: ["11", "12", "13", "14"]
+},
+answer: 2
+},
+
+{
+bn: {
+q: "একটি সংখ্যাকে 7 দিয়ে ভাগ করলে ভাগশেষ 4 থাকে। সংখ্যাটির দ্বিগুণকে 7 দিয়ে ভাগ করলে ভাগশেষ কত থাকবে?",
+o: ["1", "2", "3", "4"]
+},
+hi: {
+q: "किसी संख्या को 7 से भाग देने पर शेष 4 रहता है। उस संख्या के दोगुने को 7 से भाग देने पर शेष कितना होगा?",
+o: ["1", "2", "3", "4"]
+},
+en: {
+q: "A number leaves remainder 4 when divided by 7. What remainder will twice the number leave when divided by 7?",
+o: ["1", "2", "3", "4"]
+},
+answer: 0
+},
+
+{
+bn: {
+q: "নিচের কোন সংখ্যাটি 11 দ্বারা বিভাজ্য?",
+o: ["2728", "2738", "2748", "2758"]
+},
+hi: {
+q: "निम्नलिखित में से कौन-सी संख्या 11 से विभाज्य है?",
+o: ["2728", "2738", "2748", "2758"]
+},
+en: {
+q: "Which of the following numbers is divisible by 11?",
+o: ["2728", "2738", "2748", "2758"]
+},
+answer: 0
+},
+
+{
+bn: {
+q: "1 থেকে 50-এর মধ্যে মোট কতটি মৌলিক সংখ্যা আছে?",
+o: ["13", "14", "15", "16"]
+},
+hi: {
+q: "1 से 50 के बीच कुल कितनी अभाज्य संख्याएँ हैं?",
+o: ["13", "14", "15", "16"]
+},
+en: {
+q: "How many prime numbers are there from 1 to 50?",
+o: ["13", "14", "15", "16"]
+},
+answer: 2
+},
+
+{
+bn: {
+q: "কোন বৃহত্তম সংখ্যা দ্বারা 43, 91 এবং 183-কে ভাগ করলে প্রতিবার একই ভাগশেষ থাকবে?",
+o: ["2", "4", "6", "8"]
+},
+hi: {
+q: "वह सबसे बड़ी संख्या कौन-सी है जिससे 43, 91 और 183 को भाग देने पर प्रत्येक बार समान शेष बचे?",
+o: ["2", "4", "6", "8"]
+},
+en: {
+q: "What is the greatest number that divides 43, 91 and 183 leaving the same remainder in each case?",
+o: ["2", "4", "6", "8"]
+},
+answer: 1
+},
+
+{
+bn: {
+q: "একটি দুই অঙ্কের সংখ্যার অঙ্কদ্বয়ের যোগফল 9। অঙ্কদ্বয় স্থান পরিবর্তন করলে নতুন সংখ্যা মূল সংখ্যার চেয়ে 27 কম হয়। মূল সংখ্যাটি কত?",
+o: ["36", "54", "63", "72"]
+},
+hi: {
+q: "दो अंकों की एक संख्या के अंकों का योग 9 है। अंक उलटने पर नई संख्या मूल संख्या से 27 कम हो जाती है। मूल संख्या क्या है?",
+o: ["36", "54", "63", "72"]
+},
+en: {
+q: "The digits of a two-digit number add up to 9. When the digits are reversed, the new number is 27 less than the original. What is the original number?",
+o: ["36", "54", "63", "72"]
+},
+answer: 2
+},
+
+{
+bn: {
+q: "2⁵ × 2³-এর মান কত?",
+o: ["64", "128", "256", "512"]
+},
+hi: {
+q: "2⁵ × 2³ का मान कितना है?",
+o: ["64", "128", "256", "512"]
+},
+en: {
+q: "What is the value of 2⁵ × 2³?",
+o: ["64", "128", "256", "512"]
+},
+answer: 2
+}
+
+];
+
+
+/* =========================
+   QUIZ SYSTEM
+========================= */
+
+const text = ui[language] || ui.bn;
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+document.documentElement.lang = language;
+
+document.getElementById("title").innerText =
+text.title;
+
+document.getElementById("backText").innerText =
+text.back;
+
+document.getElementById("nextBtn").innerText =
+text.next;
+
+document.getElementById("finishedText").innerText =
+text.finished;
+
+document.getElementById("restartBtn").innerText =
+text.restart;
+
+
+function loadQuestion() {
+
+answered = false;
+
+const question =
+questions[currentQuestion];
+
+const qData =
+question[language] || question.bn;
+
+
+document.getElementById("progress").innerText =
+text.question + " " +
+(currentQuestion + 1) +
+" / " +
+questions.length;
+
+
+document.getElementById("score").innerText =
+text.score + ": " + score;
+
+
+document.getElementById("question").innerText =
+(currentQuestion + 1) + ". " + qData.q;
+
+
+const options =
+document.getElementById("options");
+
+options.innerHTML = "";
+
+document.getElementById("result").innerText = "";
+
+document.getElementById("nextBtn").style.display =
+"none";
+
+
+qData.o.forEach((option, index) => {
+
+const button =
+document.createElement("button");
+
+button.className = "option";
+
+button.innerText =
+String.fromCharCode(65 + index) +
+") " +
+option;
+
+button.onclick = function() {
+checkAnswer(button, index);
+};
+
+options.appendChild(button);
+
+});
+
+}
+
+
+function checkAnswer(button, selectedIndex) {
+
+if (answered) return;
+
+answered = true;
+
+const question =
+questions[currentQuestion];
+
+const qData =
+question[language] || question.bn;
+
+const buttons =
+document.querySelectorAll(".option");
+
+const result =
+document.getElementById("result");
+
+
+if (selectedIndex === question.answer) {
+
+button.classList.add("correct");
+
+score++;
+
+result.innerText =
+text.correct;
+
+result.style.color =
+"#15803d";
+
+} else {
+
+button.classList.add("wrong");
+
+buttons[question.answer]
+.classList.add("correct");
+
+result.innerText =
+text.wrong +
+" — " +
+text.correctAnswer +
+" " +
+String.fromCharCode(
+65 + question.answer
+) +
+") " +
+qData.o[question.answer];
+
+result.style.color =
+"#dc2626";
+
+}
+
+
+document.getElementById("score").innerText =
+text.score + ": " + score;
+
+document.getElementById("nextBtn").style.display =
+"block";
+
+}
+
+
+function nextQuestion() {
+
+currentQuestion++;
+
+if (currentQuestion < questions.length) {
+
+loadQuestion();
+
+} else {
+
+showFinalScore();
+
+}
+
+}
+
+
+function showFinalScore() {
+
+document.getElementById("quizArea").style.display =
+"none";
+
+document.getElementById("scoreBox").style.display =
+"block";
+
+document.getElementById("finalScore").innerText =
+text.final +
+" " +
+score +
+" / " +
+questions.length;
+
+}
+
+
+function restartQuiz() {
+
+currentQuestion = 0;
+score = 0;
+answered = false;
+
+document.getElementById("quizArea").style.display =
+"block";
+
+document.getElementById("scoreBox").style.display =
+"none";
+
+loadQuestion();
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
 </html>
