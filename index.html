@@ -6,6 +6,15 @@
 
   <title>PADHAI - Competitive Exam Preparation</title>
 
+  <script>
+    /* প্রথমবার language select না করলে Language page-এ যাবে */
+    const savedLanguage = localStorage.getItem("padhaiLanguage");
+
+    if (!savedLanguage) {
+      window.location.replace("language.html");
+    }
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -41,20 +50,20 @@
       padding: 18px;
     }
 
-    .language {
+    .language-area {
       display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 20px;
+      justify-content: flex-end;
+      margin-bottom: 18px;
     }
 
-    .language button {
+    .language-btn {
       border: none;
       background: white;
       padding: 10px 14px;
-      border-radius: 8px;
+      border-radius: 9px;
       cursor: pointer;
       box-shadow: 0 2px 7px #ddd;
+      font-weight: bold;
     }
 
     .search-box {
@@ -77,6 +86,11 @@
       gap: 12px;
     }
 
+    .exam-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .exam-card {
       background: white;
       padding: 22px 10px;
@@ -85,6 +99,7 @@
       box-shadow: 0 2px 8px #ddd;
       font-weight: bold;
       cursor: pointer;
+      height: 100%;
     }
 
     .exam-card:hover {
@@ -99,11 +114,55 @@
       text-align: center;
     }
 
+    .coming p {
+      margin-top: 7px;
+    }
+
+    .practice {
+      max-width: 700px;
+      margin: 10px auto 30px;
+      padding: 18px;
+    }
+
+    .question-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #ddd;
+    }
+
+    .question-box p {
+      margin-bottom: 12px;
+    }
+
+    .mcq-option {
+      width: 100%;
+      padding: 14px;
+      margin: 7px 0;
+      text-align: left;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
       color: #777;
       font-size: 13px;
+    }
+
+    @media (max-width: 450px) {
+      .exam-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -112,24 +171,25 @@
 
 <header>
   <h1>PADHAI</h1>
-  <p>এক প্রস্তুতি, অনেক লক্ষ্য</p>
+  <p id="tagline">এক প্রস্তুতি, অনেক লক্ষ্য</p>
 </header>
 
 <div class="container">
 
-  <div class="language">
-    <button>বাংলা</button>
-    <button>English</button>
-    <button>हिन्दी</button>
+  <div class="language-area">
+    <button class="language-btn" onclick="changeLanguage()">
+      🌐 <span id="languageText">ভাষা পরিবর্তন</span>
+    </button>
   </div>
 
   <input
+    id="searchBox"
     class="search-box"
     type="search"
     placeholder="Topic খুঁজুন..."
   >
 
-  <h2>আপনার পরীক্ষা নির্বাচন করুন</h2>
+  <h2 id="selectExam">আপনার পরীক্ষা নির্বাচন করুন</h2>
 
   <div class="exam-grid">
 
@@ -148,102 +208,223 @@
       Kolkata Police
     </div>
 
-    <a href="railway.html" style="text-decoration:none; color:inherit;">
-  <div class="exam-card">
-    🚆<br><br>
-    Railway
-  </div>
+    <a class="exam-link" href="railway.html">
+      <div class="exam-card">
+        🚆<br><br>
+        Railway
+      </div>
     </a>
+
+    <div class="exam-card">
+      🛡️<br><br>
+      SSC GD
+    </div>
 
   </div>
 
   <div class="coming">
-    <strong>আরও পরীক্ষা শীঘ্রই আসছে</strong>
-    <p>নতুন Exam, Topic ও MCQ নিয়মিত যোগ করা হবে।</p>
+    <strong id="comingTitle">আরও পরীক্ষা শীঘ্রই আসছে</strong>
+    <p id="comingText">
+      নতুন Exam, Topic ও MCQ নিয়মিত যোগ করা হবে।
+    </p>
   </div>
 
 </div>
 
-<footer>
-  © 2026 PADHAI
-</footer>
-<div style="max-width:700px; margin:30px auto; padding:18px;">
 
-  <h2>আজকের Practice MCQ</h2>
+<div class="practice">
 
-  <div style="background:white; padding:20px; border-radius:12px;">
+  <h2 id="practiceTitle">আজকের Practice MCQ</h2>
 
-    <p><b>1. ভারতের জাতীয় সঙ্গীতের রচয়িতা কে?</b></p>
+  <div class="question-box">
 
-    <button class="mcq-option" onclick="checkAnswer(this, false)">
+    <p id="question">
+      <b>1. ভারতের জাতীয় সঙ্গীতের রচয়িতা কে?</b>
+    </p>
+
+    <button class="mcq-option"
+      data-correct="false"
+      onclick="checkAnswer(this)">
       A) বঙ্কিমচন্দ্র চট্টোপাধ্যায়
     </button>
 
-    <button class="mcq-option" onclick="checkAnswer(this, true)">
+    <button class="mcq-option"
+      data-correct="true"
+      onclick="checkAnswer(this)">
       B) রবীন্দ্রনাথ ঠাকুর
     </button>
 
-    <button class="mcq-option" onclick="checkAnswer(this, false)">
+    <button class="mcq-option"
+      data-correct="false"
+      onclick="checkAnswer(this)">
       C) কাজী নজরুল ইসলাম
     </button>
 
-    <button class="mcq-option" onclick="checkAnswer(this, false)">
+    <button class="mcq-option"
+      data-correct="false"
+      onclick="checkAnswer(this)">
       D) শরৎচন্দ্র চট্টোপাধ্যায়
     </button>
 
     <p id="result"></p>
 
   </div>
+
 </div>
 
-<style>
-.mcq-option {
-  width: 100%;
-  padding: 14px;
-  margin: 7px 0;
-  text-align: left;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-}
-</style>
+
+<footer>
+  © 2026 PADHAI
+</footer>
+
 
 <script>
+
+const language = localStorage.getItem("padhaiLanguage") || "bn";
+
+
+/* HOME PAGE LANGUAGE */
+
+if (language === "bn") {
+
+  document.documentElement.lang = "bn";
+
+  document.getElementById("tagline").innerText =
+    "এক প্রস্তুতি, অনেক লক্ষ্য";
+
+  document.getElementById("languageText").innerText =
+    "ভাষা পরিবর্তন";
+
+  document.getElementById("searchBox").placeholder =
+    "Topic খুঁজুন...";
+
+  document.getElementById("selectExam").innerText =
+    "আপনার পরীক্ষা নির্বাচন করুন";
+
+  document.getElementById("comingTitle").innerText =
+    "আরও পরীক্ষা শীঘ্রই আসছে";
+
+  document.getElementById("comingText").innerText =
+    "নতুন Exam, Topic ও MCQ নিয়মিত যোগ করা হবে।";
+
+  document.getElementById("practiceTitle").innerText =
+    "আজকের Practice MCQ";
+}
+
+
+if (language === "hi") {
+
+  document.documentElement.lang = "hi";
+
+  document.getElementById("tagline").innerText =
+    "एक तैयारी, कई लक्ष्य";
+
+  document.getElementById("languageText").innerText =
+    "भाषा बदलें";
+
+  document.getElementById("searchBox").placeholder =
+    "Topic खोजें...";
+
+  document.getElementById("selectExam").innerText =
+    "अपनी परीक्षा चुनें";
+
+  document.getElementById("comingTitle").innerText =
+    "और परीक्षाएँ जल्द आ रही हैं";
+
+  document.getElementById("comingText").innerText =
+    "नए Exam, Topic और MCQ नियमित रूप से जोड़े जाएंगे।";
+
+  document.getElementById("practiceTitle").innerText =
+    "आज का Practice MCQ";
+}
+
+
+if (language === "en") {
+
+  document.documentElement.lang = "en";
+
+  document.getElementById("tagline").innerText =
+    "One Preparation, Many Goals";
+
+  document.getElementById("languageText").innerText =
+    "Change Language";
+
+  document.getElementById("searchBox").placeholder =
+    "Search Topic...";
+
+  document.getElementById("selectExam").innerText =
+    "Select Your Exam";
+
+  document.getElementById("comingTitle").innerText =
+    "More Exams Coming Soon";
+
+  document.getElementById("comingText").innerText =
+    "New exams, topics and MCQs will be added regularly.";
+
+  document.getElementById("practiceTitle").innerText =
+    "Today's Practice MCQ";
+}
+
+
+/* CHANGE LANGUAGE */
+
+function changeLanguage() {
+
+  localStorage.removeItem("padhaiLanguage");
+
+  window.location.href = "language.html";
+}
+
+
+/* TEST MCQ */
+
 let answered = false;
 
-function checkAnswer(button, correct) {
+function checkAnswer(button) {
 
   if (answered) return;
+
   answered = true;
 
-  const options = document.querySelectorAll(".mcq-option");
-  const result = document.getElementById("result");
+  const options =
+    document.querySelectorAll(".mcq-option");
+
+  const result =
+    document.getElementById("result");
+
+  const correct =
+    button.dataset.correct === "true";
 
   if (correct) {
+
     button.style.background = "#dcfce7";
     button.style.border = "2px solid #16a34a";
 
-    result.innerHTML = "✅ সঠিক উত্তর!";
+    result.innerHTML = "✅ Correct!";
     result.style.color = "green";
 
   } else {
+
     button.style.background = "#fee2e2";
     button.style.border = "2px solid #dc2626";
 
-    options[1].style.background = "#dcfce7";
-    options[1].style.border = "2px solid #16a34a";
+    options.forEach(option => {
 
-    result.innerHTML =
-      "❌ ভুল — সঠিক উত্তর: B) রবীন্দ্রনাথ ঠাকুর";
+      if (option.dataset.correct === "true") {
 
+        option.style.background = "#dcfce7";
+        option.style.border = "2px solid #16a34a";
+
+      }
+
+    });
+
+    result.innerHTML = "❌ Wrong";
     result.style.color = "red";
   }
 }
+
 </script>
+
 </body>
 </html>
-<div class="exam-card">
-  🛡️<br><br>
-  SSC GD
-</div>
