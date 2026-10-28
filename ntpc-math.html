@@ -241,11 +241,13 @@ const link =
 document.createElement("a");
 
 link.className = "topic";
-
-link.href =
-"ntpc-math-topic.html?topic=" +
-encodeURIComponent(topic[0]);
-
+if (topic[0] === "number-system") {
+  link.href = "ntpc-number-system.html";
+} else {
+  link.href =
+    "ntpc-math-topic.html?topic=" +
+    encodeURIComponent(topic[0]);
+}
 link.innerText =
 "📘 " + topic[1];
 
