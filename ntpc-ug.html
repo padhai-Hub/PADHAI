@@ -6,6 +6,14 @@
 
 <title>RRB NTPC UG - PADHAI</title>
 
+<script>
+const savedLanguage = localStorage.getItem("padhaiLanguage");
+
+if (!savedLanguage) {
+  window.location.replace("language.html");
+}
+</script>
+
 <style>
 * {
   box-sizing: border-box;
@@ -39,12 +47,35 @@ header p {
   padding: 18px;
 }
 
-.back {
-  display: inline-block;
+.top-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 18px;
+}
+
+.back {
   color: #2563eb;
   text-decoration: none;
   font-weight: bold;
+}
+
+.language-btn {
+  border: none;
+  background: white;
+  padding: 10px 12px;
+  border-radius: 9px;
+  box-shadow: 0 2px 7px #ddd;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.note {
+  background: #fff7ed;
+  border-radius: 10px;
+  padding: 13px;
+  margin-bottom: 18px;
 }
 
 .subject {
@@ -69,17 +100,9 @@ header p {
   background: #f8fafc;
   border: 1px solid #e5e7eb;
   border-radius: 9px;
-  padding: 11px 12px;
-  font-size: 15px;
+  padding: 12px;
 }
 
-.note {
-  background: #fff7ed;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 18px;
-  font-size: 14px;
-}
 </style>
 </head>
 
@@ -87,185 +110,432 @@ header p {
 
 <header>
   <h1>🚆 RRB NTPC UG</h1>
-  <p>Undergraduate / 12th Pass Level</p>
+  <p id="levelText"></p>
 </header>
 
 <div class="container">
 
-<a class="back" href="railway.html">← Railway Exams</a>
+  <div class="top-buttons">
 
-<div class="note">
-  📚 Subject নির্বাচন করার পরে Topic এবং MCQ Practice করা যাবে।
-</div>
+    <a class="back" href="railway.html" id="backText"></a>
 
+    <button class="language-btn" onclick="changeLanguage()">
+      🌐 <span id="changeLanguageText"></span>
+    </button>
 
-<!-- MATHEMATICS -->
+  </div>
 
-<div class="subject">
+  <div class="note" id="noteText"></div>
 
-<h2>➗ Mathematics</h2>
-
-<div class="topic-list">
-
-<div class="topic">Number System</div>
-<div class="topic">Decimals</div>
-<div class="topic">Fractions</div>
-<div class="topic">LCM</div>
-<div class="topic">HCF</div>
-<div class="topic">Ratio & Proportion</div>
-<div class="topic">Percentage</div>
-<div class="topic">Mensuration</div>
-<div class="topic">Time & Work</div>
-<div class="topic">Time & Distance</div>
-<div class="topic">Simple Interest</div>
-<div class="topic">Compound Interest</div>
-<div class="topic">Profit & Loss</div>
-<div class="topic">Elementary Algebra</div>
-<div class="topic">Geometry</div>
-<div class="topic">Trigonometry</div>
-<div class="topic">Elementary Statistics</div>
+  <div id="syllabus"></div>
 
 </div>
-</div>
 
 
-<!-- REASONING -->
+<script>
 
-<div class="subject">
-
-<h2>🧠 General Intelligence & Reasoning</h2>
-
-<div class="topic-list">
-
-<div class="topic">Analogies</div>
-<div class="topic">Number Series</div>
-<div class="topic">Alphabetical Series</div>
-<div class="topic">Coding & Decoding</div>
-<div class="topic">Mathematical Operations</div>
-<div class="topic">Similarities & Differences</div>
-<div class="topic">Relationships</div>
-<div class="topic">Analytical Reasoning</div>
-<div class="topic">Syllogism</div>
-<div class="topic">Jumbling</div>
-<div class="topic">Venn Diagrams</div>
-<div class="topic">Puzzle</div>
-<div class="topic">Data Sufficiency</div>
-<div class="topic">Statement – Conclusion</div>
-<div class="topic">Statement – Course of Action</div>
-<div class="topic">Decision Making</div>
-<div class="topic">Maps</div>
-<div class="topic">Interpretation of Graphs</div>
-
-</div>
-</div>
+const language =
+  localStorage.getItem("padhaiLanguage") || "bn";
 
 
-<!-- GENERAL AWARENESS -->
+/* =========================
+   BANGLA
+========================= */
 
-<div class="subject">
+const bn = {
 
-<h2>🌍 General Awareness</h2>
+level: "আন্ডারগ্র্যাজুয়েট / ১২শ শ্রেণি স্তর",
 
-<div class="topic-list">
+back: "← Railway Exams",
 
-<div class="topic">Current Events – National & International</div>
+change: "ভাষা পরিবর্তন",
 
-<div class="topic">Games & Sports</div>
+note:
+"📚 RRB NTPC UG-এর বিষয় ও সিলেবাসের টপিক। পরে প্রতিটি টপিকের ভিতরে Subtopic ও MCQ যোগ করা হবে।",
 
-<div class="topic">Art & Culture of India</div>
+mathTitle: "➗ গণিত",
 
-<div class="topic">Indian Literature</div>
+math: [
+"সংখ্যা পদ্ধতি (Number System)",
+"দশমিক (Decimals)",
+"ভগ্নাংশ (Fractions)",
+"ল.সা.গু (LCM)",
+"গ.সা.গু (HCF)",
+"অনুপাত ও সমানুপাত (Ratio & Proportion)",
+"শতকরা (Percentage)",
+"পরিমিতি (Mensuration)",
+"সময় ও কাজ (Time & Work)",
+"সময় ও দূরত্ব (Time & Distance)",
+"সরল সুদ (Simple Interest)",
+"চক্রবৃদ্ধি সুদ (Compound Interest)",
+"লাভ ও ক্ষতি (Profit & Loss)",
+"প্রাথমিক বীজগণিত (Elementary Algebra)",
+"জ্যামিতি (Geometry)",
+"ত্রিকোণমিতি (Trigonometry)",
+"প্রাথমিক পরিসংখ্যান (Elementary Statistics)"
+],
 
-<div class="topic">Monuments & Places of India</div>
+reasoningTitle:
+"🧠 সাধারণ বুদ্ধিমত্তা ও যুক্তি",
 
-<div class="topic">
-General Science & Life Science – Class 10 Level
-</div>
+reasoning: [
+"সাদৃশ্য (Analogies)",
+"সংখ্যা ও বর্ণমালা সিরিজ সম্পূর্ণকরণ",
+"কোডিং ও ডিকোডিং",
+"গাণিতিক ক্রিয়া",
+"সাদৃশ্য ও বৈসাদৃশ্য",
+"সম্পর্ক (Relationships)",
+"বিশ্লেষণাত্মক যুক্তি",
+"সিলোজিজম",
+"Jumbling",
+"ভেন ডায়াগ্রাম",
+"Puzzle",
+"Data Sufficiency",
+"Statement – Conclusion",
+"Statement – Course of Action",
+"Decision Making",
+"Maps",
+"Graph-এর ব্যাখ্যা (Interpretation of Graphs)"
+],
 
-<div class="topic">
-History of India & Freedom Struggle
-</div>
+gaTitle:
+"🌍 সাধারণ সচেতনতা",
 
-<div class="topic">
-Physical, Social & Economic Geography of India & World
-</div>
+ga: [
+"জাতীয় ও আন্তর্জাতিক বর্তমান ঘটনা",
+"খেলাধুলা",
+"ভারতের শিল্প ও সংস্কৃতি",
+"ভারতীয় সাহিত্য",
+"ভারতের স্মৃতিস্তম্ভ ও গুরুত্বপূর্ণ স্থান",
+"সাধারণ বিজ্ঞান ও জীবন বিজ্ঞান – দশম শ্রেণি স্তর",
+"ভারতের ইতিহাস ও স্বাধীনতা সংগ্রাম",
+"ভারত ও বিশ্বের ভৌত, সামাজিক ও অর্থনৈতিক ভূগোল",
+"ভারতীয় রাজনীতি ও শাসনব্যবস্থা – সংবিধান ও রাজনৈতিক ব্যবস্থা",
+"সাধারণ বৈজ্ঞানিক ও প্রযুক্তিগত উন্নয়ন",
+"ভারতের মহাকাশ কর্মসূচি",
+"ভারতের পারমাণবিক কর্মসূচি",
+"জাতিসংঘ (UN) ও অন্যান্য গুরুত্বপূর্ণ বিশ্ব সংস্থা",
+"ভারত ও বিশ্বের পরিবেশ সংক্রান্ত সমস্যা",
+"কম্পিউটারের মৌলিক বিষয় ও কম্পিউটার অ্যাপ্লিকেশন",
+"প্রচলিত সংক্ষিপ্ত রূপ (Common Abbreviations)",
+"ভারতের পরিবহন ব্যবস্থা",
+"ভারতীয় অর্থনীতি",
+"ভারত ও বিশ্বের বিখ্যাত ব্যক্তিত্ব",
+"সরকারের গুরুত্বপূর্ণ Flagship Programme",
+"ভারতের উদ্ভিদ ও প্রাণীজগৎ",
+"ভারতের গুরুত্বপূর্ণ সরকারি ও পাবলিক সেক্টর সংস্থা"
+]
 
-<div class="topic">
-Indian Polity & Governance
-</div>
+};
 
-<div class="topic">
-Constitution & Political System
-</div>
 
-<div class="topic">
-General Scientific & Technological Developments
-</div>
+/* =========================
+   HINDI
+========================= */
 
-<div class="topic">
-Space Programme of India
-</div>
+const hi = {
 
-<div class="topic">
-Nuclear Programme of India
-</div>
+level: "अंडरग्रेजुएट / 12वीं स्तर",
 
-<div class="topic">
-United Nations (UN)
-</div>
+back: "← Railway Exams",
 
-<div class="topic">
-Important World Organizations
-</div>
+change: "भाषा बदलें",
 
-<div class="topic">
-Environmental Issues – India & World
-</div>
+note:
+"📚 RRB NTPC UG के विषय और सिलेबस टॉपिक। बाद में प्रत्येक टॉपिक के अंदर Subtopic और MCQ जोड़े जाएंगे।",
 
-<div class="topic">
-Basics of Computers
-</div>
+mathTitle: "➗ गणित",
 
-<div class="topic">
-Computer Applications
-</div>
+math: [
+"संख्या पद्धति (Number System)",
+"दशमलव (Decimals)",
+"भिन्न (Fractions)",
+"लघुत्तम समापवर्त्य (LCM)",
+"महत्तम समापवर्तक (HCF)",
+"अनुपात और समानुपात",
+"प्रतिशत",
+"क्षेत्रमिति (Mensuration)",
+"समय और कार्य",
+"समय और दूरी",
+"साधारण ब्याज",
+"चक्रवृद्धि ब्याज",
+"लाभ और हानि",
+"प्रारंभिक बीजगणित",
+"ज्यामिति",
+"त्रिकोणमिति",
+"प्रारंभिक सांख्यिकी"
+],
 
-<div class="topic">
-Common Abbreviations
-</div>
+reasoningTitle:
+"🧠 सामान्य बुद्धिमत्ता एवं तर्कशक्ति",
 
-<div class="topic">
-Transport Systems in India
-</div>
+reasoning: [
+"सादृश्य (Analogies)",
+"संख्या और वर्णमाला श्रृंखला पूर्ण करना",
+"कोडिंग और डिकोडिंग",
+"गणितीय संक्रियाएँ",
+"समानताएँ और अंतर",
+"संबंध",
+"विश्लेषणात्मक तर्क",
+"न्यायवाक्य (Syllogism)",
+"Jumbling",
+"Venn Diagram",
+"Puzzle",
+"Data Sufficiency",
+"Statement – Conclusion",
+"Statement – Course of Action",
+"Decision Making",
+"Maps",
+"Interpretation of Graphs"
+],
 
-<div class="topic">
-Indian Economy
-</div>
+gaTitle:
+"🌍 सामान्य जागरूकता",
 
-<div class="topic">
-Famous Personalities – India & World
-</div>
+ga: [
+"राष्ट्रीय और अंतरराष्ट्रीय समसामयिक घटनाएँ",
+"खेल",
+"भारत की कला और संस्कृति",
+"भारतीय साहित्य",
+"भारत के स्मारक और महत्वपूर्ण स्थान",
+"सामान्य विज्ञान एवं जीवन विज्ञान – कक्षा 10 स्तर",
+"भारत का इतिहास एवं स्वतंत्रता संग्राम",
+"भारत एवं विश्व का भौतिक, सामाजिक और आर्थिक भूगोल",
+"भारतीय राजनीति एवं शासन – संविधान और राजनीतिक व्यवस्था",
+"सामान्य वैज्ञानिक एवं तकनीकी विकास",
+"भारत का अंतरिक्ष कार्यक्रम",
+"भारत का परमाणु कार्यक्रम",
+"संयुक्त राष्ट्र एवं अन्य महत्वपूर्ण विश्व संगठन",
+"भारत एवं विश्व से संबंधित पर्यावरणीय मुद्दे",
+"कंप्यूटर की मूल बातें एवं कंप्यूटर अनुप्रयोग",
+"सामान्य संक्षिप्त रूप",
+"भारत की परिवहन प्रणाली",
+"भारतीय अर्थव्यवस्था",
+"भारत एवं विश्व की प्रसिद्ध हस्तियाँ",
+"सरकार के प्रमुख Flagship Programme",
+"भारत की वनस्पति एवं जीव-जंतु",
+"भारत के महत्वपूर्ण सरकारी एवं सार्वजनिक क्षेत्र के संगठन"
+]
 
-<div class="topic">
-Flagship Government Programmes
-</div>
+};
 
-<div class="topic">
-Flora & Fauna of India
-</div>
 
-<div class="topic">
-Important Government Organizations
-</div>
+/* =========================
+   ENGLISH
+========================= */
 
-<div class="topic">
-Public Sector Organizations (PSU)
-</div>
+const en = {
 
-</div>
-</div>
+level: "Undergraduate / 12th Pass Level",
 
-</div>
+back: "← Railway Exams",
+
+change: "Change Language",
+
+note:
+"📚 RRB NTPC UG subjects and syllabus topics. Subtopics and MCQs will be added inside each topic.",
+
+mathTitle: "➗ Mathematics",
+
+math: [
+"Number System",
+"Decimals",
+"Fractions",
+"LCM",
+"HCF",
+"Ratio and Proportions",
+"Percentage",
+"Mensuration",
+"Time and Work",
+"Time and Distance",
+"Simple Interest",
+"Compound Interest",
+"Profit and Loss",
+"Elementary Algebra",
+"Geometry",
+"Trigonometry",
+"Elementary Statistics"
+],
+
+reasoningTitle:
+"🧠 General Intelligence & Reasoning",
+
+reasoning: [
+"Analogies",
+"Completion of Number and Alphabetical Series",
+"Coding and Decoding",
+"Mathematical Operations",
+"Similarities and Differences",
+"Relationships",
+"Analytical Reasoning",
+"Syllogism",
+"Jumbling",
+"Venn Diagrams",
+"Puzzle",
+"Data Sufficiency",
+"Statement – Conclusion",
+"Statement – Courses of Action",
+"Decision Making",
+"Maps",
+"Interpretation of Graphs"
+],
+
+gaTitle:
+"🌍 General Awareness",
+
+ga: [
+"Current Events of National and International Importance",
+"Games and Sports",
+"Art and Culture of India",
+"Indian Literature",
+"Monuments and Places of India",
+"General Science and Life Science – up to Class 10 Level",
+"History of India and Freedom Struggle",
+"Physical, Social and Economic Geography of India and World",
+"Indian Polity and Governance – Constitution and Political System",
+"General Scientific and Technological Developments",
+"Space Programme of India",
+"Nuclear Programme of India",
+"United Nations and Other Important World Organizations",
+"Environmental Issues Concerning India and World",
+"Basics of Computers and Computer Applications",
+"Common Abbreviations",
+"Transport Systems in India",
+"Indian Economy",
+"Famous Personalities of India and World",
+"Flagship Government Programmes",
+"Flora and Fauna of India",
+"Important Government and Public Sector Organizations of India"
+]
+
+};
+
+
+/* =========================
+   SELECT LANGUAGE DATA
+========================= */
+
+let data;
+
+if (language === "hi") {
+  data = hi;
+  document.documentElement.lang = "hi";
+
+} else if (language === "en") {
+  data = en;
+  document.documentElement.lang = "en";
+
+} else {
+  data = bn;
+  document.documentElement.lang = "bn";
+}
+
+
+/* =========================
+   SHOW TEXT
+========================= */
+
+document.getElementById("levelText").innerText =
+  data.level;
+
+document.getElementById("backText").innerText =
+  data.back;
+
+document.getElementById("changeLanguageText").innerText =
+  data.change;
+
+document.getElementById("noteText").innerText =
+  data.note;
+
+
+/* =========================
+   CREATE SUBJECT
+========================= */
+
+function createSubject(title, topics) {
+
+  const subject =
+    document.createElement("div");
+
+  subject.className = "subject";
+
+
+  const heading =
+    document.createElement("h2");
+
+  heading.innerText = title;
+
+  subject.appendChild(heading);
+
+
+  const list =
+    document.createElement("div");
+
+  list.className = "topic-list";
+
+
+  topics.forEach(topic => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "topic";
+
+    item.innerText = topic;
+
+    list.appendChild(item);
+
+  });
+
+
+  subject.appendChild(list);
+
+  return subject;
+}
+
+
+/* =========================
+   SHOW SYLLABUS
+========================= */
+
+const syllabus =
+  document.getElementById("syllabus");
+
+syllabus.appendChild(
+  createSubject(
+    data.mathTitle,
+    data.math
+  )
+);
+
+syllabus.appendChild(
+  createSubject(
+    data.reasoningTitle,
+    data.reasoning
+  )
+);
+
+syllabus.appendChild(
+  createSubject(
+    data.gaTitle,
+    data.ga
+  )
+);
+
+
+/* =========================
+   CHANGE LANGUAGE
+========================= */
+
+function changeLanguage() {
+
+  localStorage.removeItem("padhaiLanguage");
+
+  window.location.href = "language.html";
+
+}
+
+</script>
 
 </body>
 </html>
