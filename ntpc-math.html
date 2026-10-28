@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NTPC Mathematics - PADHAI</title>
+
+<script>
+const savedLanguage = localStorage.getItem("padhaiLanguage");
+
+if (!savedLanguage) {
+  window.location.replace("language.html");
+}
+</script>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+header {
+  background: #2563eb;
+  color: white;
+  text-align: center;
+  padding: 22px 15px;
+}
+
+header h1 {
+  margin: 0 0 6px;
+}
+
+.container {
+  max-width: 750px;
+  margin: auto;
+  padding: 18px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.info {
+  background: #fff7ed;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.topic-list {
+  display: grid;
+  gap: 10px;
+}
+
+.topic {
+  display: block;
+  background: white;
+  padding: 16px;
+  border-radius: 11px;
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: bold;
+  box-shadow: 0 2px 7px #ddd;
+}
+
+.topic:active {
+  background: #eef4ff;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<h1>➗ <span id="pageTitle"></span></h1>
+
+<p>RRB NTPC UG</p>
+
+</header>
+
+
+<div class="container">
+
+<a class="back" href="ntpc-ug.html" id="backText"></a>
+
+<div class="info" id="infoText"></div>
+
+<div class="topic-list" id="topicList"></div>
+
+</div>
+
+
+<script>
+
+const language =
+localStorage.getItem("padhaiLanguage") || "bn";
+
+
+const translations = {
+
+bn: {
+
+title: "গণিত",
+
+back: "← RRB NTPC UG",
+
+info: "📚 যে টপিকটি পড়তে চান সেটি নির্বাচন করুন।",
+
+topics: [
+
+["number-system", "সংখ্যা পদ্ধতি"],
+["decimals", "দশমিক"],
+["fractions", "ভগ্নাংশ"],
+["lcm", "ল.সা.গু (LCM)"],
+["hcf", "গ.সা.গু (HCF)"],
+["ratio-proportion", "অনুপাত ও সমানুপাত"],
+["percentage", "শতকরা"],
+["mensuration", "পরিমিতি"],
+["time-work", "সময় ও কাজ"],
+["time-distance", "সময় ও দূরত্ব"],
+["simple-interest", "সরল সুদ"],
+["compound-interest", "চক্রবৃদ্ধি সুদ"],
+["profit-loss", "লাভ ও ক্ষতি"],
+["algebra", "প্রাথমিক বীজগণিত"],
+["geometry", "জ্যামিতি"],
+["trigonometry", "ত্রিকোণমিতি"],
+["statistics", "প্রাথমিক পরিসংখ্যান"]
+
+]
+
+},
+
+
+hi: {
+
+title: "गणित",
+
+back: "← RRB NTPC UG",
+
+info: "📚 जिस टॉपिक को पढ़ना चाहते हैं उसे चुनें।",
+
+topics: [
+
+["number-system", "संख्या पद्धति"],
+["decimals", "दशमलव"],
+["fractions", "भिन्न"],
+["lcm", "लघुत्तम समापवर्त्य (LCM)"],
+["hcf", "महत्तम समापवर्तक (HCF)"],
+["ratio-proportion", "अनुपात और समानुपात"],
+["percentage", "प्रतिशत"],
+["mensuration", "क्षेत्रमिति"],
+["time-work", "समय और कार्य"],
+["time-distance", "समय और दूरी"],
+["simple-interest", "साधारण ब्याज"],
+["compound-interest", "चक्रवृद्धि ब्याज"],
+["profit-loss", "लाभ और हानि"],
+["algebra", "प्रारंभिक बीजगणित"],
+["geometry", "ज्यामिति"],
+["trigonometry", "त्रिकोणमिति"],
+["statistics", "प्रारंभिक सांख्यिकी"]
+
+]
+
+},
+
+
+en: {
+
+title: "Mathematics",
+
+back: "← RRB NTPC UG",
+
+info: "📚 Select the topic you want to study.",
+
+topics: [
+
+["number-system", "Number System"],
+["decimals", "Decimals"],
+["fractions", "Fractions"],
+["lcm", "LCM"],
+["hcf", "HCF"],
+["ratio-proportion", "Ratio & Proportion"],
+["percentage", "Percentage"],
+["mensuration", "Mensuration"],
+["time-work", "Time & Work"],
+["time-distance", "Time & Distance"],
+["simple-interest", "Simple Interest"],
+["compound-interest", "Compound Interest"],
+["profit-loss", "Profit & Loss"],
+["algebra", "Elementary Algebra"],
+["geometry", "Geometry"],
+["trigonometry", "Trigonometry"],
+["statistics", "Elementary Statistics"]
+
+]
+
+}
+
+};
+
+
+const data =
+translations[language] || translations.bn;
+
+
+document.documentElement.lang = language;
+
+document.getElementById("pageTitle").innerText =
+data.title;
+
+document.getElementById("backText").innerText =
+data.back;
+
+document.getElementById("infoText").innerText =
+data.info;
+
+
+const topicList =
+document.getElementById("topicList");
+
+
+data.topics.forEach(topic => {
+
+const link =
+document.createElement("a");
+
+link.className = "topic";
+
+link.href =
+"ntpc-math-topic.html?topic=" +
+encodeURIComponent(topic[0]);
+
+link.innerText =
+"📘 " + topic[1];
+
+topicList.appendChild(link);
+
+});
+
+</script>
+
+</body>
+  </html>
