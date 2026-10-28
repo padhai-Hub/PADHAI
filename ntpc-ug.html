@@ -501,13 +501,28 @@ function createSubject(title, topics) {
 const syllabus =
   document.getElementById("syllabus");
 
-syllabus.appendChild(
-  createSubject(
-    data.mathTitle,
-    data.math
-  )
-);
+const mathButton = document.createElement("a");
 
+mathButton.href = "ntpc-math.html";
+
+mathButton.innerText =
+language === "bn"
+? "➗ গণিতের সব টপিক খুলুন →"
+: language === "hi"
+? "➗ गणित के सभी टॉपिक खोलें →"
+: "➗ Open All Mathematics Topics →";
+
+mathButton.style.display = "block";
+mathButton.style.background = "#2563eb";
+mathButton.style.color = "white";
+mathButton.style.padding = "14px";
+mathButton.style.marginBottom = "18px";
+mathButton.style.borderRadius = "10px";
+mathButton.style.textDecoration = "none";
+mathButton.style.textAlign = "center";
+mathButton.style.fontWeight = "bold";
+
+syllabus.appendChild(mathButton);
 syllabus.appendChild(
   createSubject(
     data.reasoningTitle,
