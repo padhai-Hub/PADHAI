@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RRB NTPC UG – Important Days | PADHAI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;color:#182235;font-family:Arial,sans-serif}
+header{background:#173b70;color:white;padding:20px 15px;text-align:center}
+header h2{margin:0 0 7px;font-size:21px}
+header p{margin:0;font-size:13px}
+.container{max-width:650px;margin:18px auto;padding:0 12px}
+.panel{background:white;border-radius:14px;padding:18px;box-shadow:0 3px 14px #172b4d12}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+select{padding:9px;border:1px solid #ccd5e2;border-radius:8px;background:white}
+.progress{height:8px;background:#e5eaf2;border-radius:10px;margin:16px 0}
+#bar{height:8px;width:0;background:#2368c4;border-radius:10px}
+.meta{font-size:13px;color:#637087}
+#question{font-size:18px;line-height:1.55;margin:18px 0}
+.option{display:block;width:100%;text-align:left;background:white;border:1px solid #d7deea;border-radius:10px;padding:13px;margin:9px 0;font-size:15px;color:#182235}
+.option:disabled{opacity:1}
+.option.correct{background:#e4f7eb;border-color:#269653;color:#126332}
+.option.wrong{background:#ffebeb;border-color:#d64c4c;color:#a32020}
+#feedback{margin-top:14px;padding:12px;border-radius:9px;line-height:1.5;display:none;font-size:14px}
+#next,#restart{background:#173b70;color:white;border:0;border-radius:9px;padding:12px 20px;font-size:15px;margin-top:14px}
+#next:disabled{opacity:.4}
+#result{display:none;text-align:center}
+.small{font-size:13px;color:#637087}
+</style>
+</head>
+<body>
+<header>
+<h2>PADHAI – RRB NTPC Undergraduate</h2>
+<p>General Awareness / GK • Important Days • January Set 1</p>
+</header>
+
+<div class="container">
+<div class="panel">
+<div class="top">
+<strong id="setTitle">জানুয়ারি – সেট ১</strong>
+<select id="language" onchange="changeLanguage()">
+<option value="bn">বাংলা</option>
+<option value="en">English</option>
+<option value="hi">हिन्दी</option>
+</select>
+</div>
+
+<div id="quiz">
+<div class="progress"><div id="bar"></div></div>
+<div class="top meta">
+<span id="counter"></span>
+<span id="score"></span>
+</div>
+<div id="question"></div>
+<div id="options"></div>
+<div id="feedback"></div>
+<button id="next" onclick="nextQuestion()" disabled>পরের প্রশ্ন</button>
+</div>
+
+<div id="result">
+<h2 id="resultTitle"></h2>
+<p id="resultScore"></p>
+<p id="resultMessage"></p>
+<button id="restart" onclick="restartQuiz()">আবার শুরু করুন</button>
+</div>
+</div>
+<p class="small" style="text-align:center;margin:14px">
+PADHAI • RRB NTPC UG Practice
+</p>
+</div>
+
+<script>
+const questions = [
+{
+q:["প্রবাসী ভারতীয় দিবস কবে পালন করা হয়?","When is Pravasi Bharatiya Divas observed?","प्रवासी भारतीय दिवस कब मनाया जाता है?"],
+o:[
+["৯ জানুয়ারি","January 9","9 जनवरी"],
+["১০ জানুয়ারি","January 10","10 जनवरी"],
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["১৫ জানুয়ারি","January 15","15 जनवरी"]
+],a:0,
+e:["প্রতি বছর ৯ জানুয়ারি প্রবাসী ভারতীয় দিবস পালন করা হয়।","Pravasi Bharatiya Divas is observed every year on January 9.","प्रवासी भारतीय दिवस हर वर्ष 9 जनवरी को मनाया जाता है।"]
+},
+{
+q:["মহাত্মা গান্ধী দক্ষিণ আফ্রিকা থেকে ভারতে ফিরে এসেছিলেন কোন সালে?","In which year did Mahatma Gandhi return to India from South Africa?","महात्मा गांधी दक्षिण अफ्रीका से भारत किस वर्ष लौटे थे?"],
+o:[
+["১৯১৩","1913","1913"],
+["১৯১৫","1915","1915"],
+["১৯১৭","1917","1917"],
+["১৯২০","1920","1920"]
+],a:1,
+e:["মহাত্মা গান্ধী ৯ জানুয়ারি ১৯১৫ সালে দক্ষিণ আফ্রিকা থেকে ভারতে ফেরেন।","Mahatma Gandhi returned to India from South Africa on January 9, 1915.","महात्मा गांधी 9 जनवरी 1915 को दक्षिण अफ्रीका से भारत लौटे थे।"]
+},
+{
+q:["প্রথম প্রবাসী ভারতীয় দিবস কোন সালে অনুষ্ঠিত হয়?","In which year was the first Pravasi Bharatiya Divas held?","पहला प्रवासी भारतीय दिवस किस वर्ष आयोजित हुआ था?"],
+o:[
+["২০০১","2001","2001"],
+["২০০২","2002","2002"],
+["২০০৩","2003","2003"],
+["২০০৫","2005","2005"]
+],a:2,
+e:["প্রথম প্রবাসী ভারতীয় দিবস সম্মেলন ২০০৩ সালে অনুষ্ঠিত হয়।","The first Pravasi Bharatiya Divas convention was held in 2003.","पहला प्रवासी भारतीय दिवस सम्मेलन 2003 में आयोजित हुआ था।"]
+},
+{
+q:["জাতীয় যুব দিবস কবে পালন করা হয়?","When is National Youth Day observed in India?","भारत में राष्ट्रीय युवा दिवस कब मनाया जाता है?"],
+o:[
+["১০ জানুয়ারি","January 10","10 जनवरी"],
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["১৫ জানুয়ারি","January 15","15 जनवरी"],
+["২৩ জানুয়ারি","January 23","23 जनवरी"]
+],a:1,
+e:["স্বামী বিবেকানন্দের জন্মবার্ষিকী উপলক্ষে ১২ জানুয়ারি জাতীয় যুব দিবস পালন করা হয়।","National Youth Day is observed on January 12 on the birth anniversary of Swami Vivekananda.","स्वामी विवेकानंद की जयंती पर 12 जनवरी को राष्ट्रीय युवा दिवस मनाया जाता है।"]
+},
+{
+q:["স্বামী বিবেকানন্দের জন্ম কত সালে হয়েছিল?","In which year was Swami Vivekananda born?","स्वामी विवेकानंद का जन्म किस वर्ष हुआ था?"],
+o:[
+["১৮৬১","1861","1861"],
+["১৮৬২","1862","1862"],
+["১৮৬৩","1863","1863"],
+["১৮৬৫","1865","1865"]
+],a:2,
+e:["স্বামী বিবেকানন্দ ১২ জানুয়ারি ১৮৬৩ সালে কলকাতায় জন্মগ্রহণ করেন।","Swami Vivekananda was born in Kolkata on January 12, 1863.","स्वामी विवेकानंद का जन्म 12 जनवरी 1863 को कोलकाता में हुआ था।"]
+},
+{
+q:["জাতীয় যুব দিবস কার জন্মবার্ষিকীতে পালন করা হয়?","National Youth Day marks the birth anniversary of whom?","राष्ट्रीय युवा दिवस किसकी जयंती पर मनाया जाता है?"],
+o:[
+["রবীন্দ্রনাথ ঠাকুর","Rabindranath Tagore","रवीन्द्रनाथ टैगोर"],
+["স্বামী বিবেকানন্দ","Swami Vivekananda","स्वामी विवेकानंद"],
+["সুভাষচন্দ্র বসু","Subhas Chandra Bose","सुभाष चंद्र बोस"],
+["মহাত্মা গান্ধী","Mahatma Gandhi","महात्मा गांधी"]
+],a:1,
+e:["জাতীয় যুব দিবস স্বামী বিবেকানন্দের জন্মবার্ষিকীতে পালন করা হয়।","National Youth Day marks the birth anniversary of Swami Vivekananda.","राष्ट्रीय युवा दिवस स्वामी विवेकानंद की जयंती पर मनाया जाता है।"]
+},
+{
+q:["বিশ্ব যুক্তি দিবস (World Logic Day) কবে?","When is World Logic Day observed?","विश्व तर्कशास्त्र दिवस कब मनाया जाता है?"],
+o:[
+["১০ জানুয়ারি","January 10","10 जनवरी"],
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["১৪ জানুয়ারি","January 14","14 जनवरी"],
+["১৬ জানুয়ারি","January 16","16 जनवरी"]
+],a:2,
+e:["প্রতি বছর ১৪ জানুয়ারি বিশ্ব যুক্তি দিবস পালন করা হয়।","World Logic Day is observed every year on January 14.","विश्व तर्कशास्त्र दिवस हर वर्ष 14 जनवरी को मनाया जाता है।"]
+},
+{
+q:["বিশ্ব যুক্তি দিবস কোন সংস্থার উদ্যোগে ঘোষিত হয়?","World Logic Day was proclaimed by which organization?","विश्व तर्कशास्त्र दिवस किस संगठन द्वारा घोषित किया गया था?"],
+o:[
+["WHO","WHO","WHO"],
+["UNESCO","UNESCO","यूनेस्को"],
+["UNICEF","UNICEF","यूनिसेफ"],
+["ILO","ILO","आईएलओ"]
+],a:1,
+e:["UNESCO, International Council for Philosophy and Human Sciences (CIPSH)-এর সঙ্গে যুক্তভাবে দিবসটি ঘোষণা করে।","UNESCO proclaimed the day in association with the International Council for Philosophy and Human Sciences (CIPSH).","यूनेस्को ने International Council for Philosophy and Human Sciences (CIPSH) के साथ मिलकर यह दिवस घोषित किया।"]
+},
+{
+q:["ভারতে সেনা দিবস (Army Day) কবে পালন করা হয়?","When is Army Day observed in India?","भारत में सेना दिवस कब मनाया जाता है?"],
+o:[
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["১৪ জানুয়ারি","January 14","14 जनवरी"],
+["১৫ জানুয়ারি","January 15","15 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"]
+],a:2,
+e:["প্রতি বছর ১৫ জানুয়ারি ভারতে সেনা দিবস পালন করা হয়।","Army Day is observed in India every year on January 15.","भारत में हर वर्ष 15 जनवरी को सेना दिवस मनाया जाता है।"]
+},
+{
+q:["১৯৪৯ সালের ১৫ জানুয়ারি কে ভারতীয় সেনাবাহিনীর প্রথম ভারতীয় Commander-in-Chief হন?","Who became the first Indian Commander-in-Chief of the Indian Army on January 15, 1949?","15 जनवरी 1949 को भारतीय सेना के पहले भारतीय कमांडर-इन-चीफ कौन बने?"],
+o:[
+["কে. এম. কারিয়াপ্পা","K. M. Cariappa","के. एम. करियप्पा"],
+["স্যাম মানেকশ","Sam Manekshaw","सैम मानेकशॉ"],
+["কে. এস. থিমাইয়া","K. S. Thimayya","के. एस. थिमैया"],
+["বিপিন রাওয়াত","Bipin Rawat","बिपिन रावत"]
+],a:0,
+e:["জেনারেল কে. এম. কারিয়াপ্পা ১৯৪৯ সালের ১৫ জানুয়ারি ভারতীয় সেনাবাহিনীর কমান্ড গ্রহণ করেন।","General K. M. Cariappa took command of the Indian Army on January 15, 1949.","जनरल के. एम. करियप्पा ने 15 जनवरी 1949 को भारतीय सेना की कमान संभाली थी।"]
+},
+{
+q:["কে. এম. কারিয়াপ্পা কার কাছ থেকে ভারতীয় সেনাবাহিনীর কমান্ড গ্রহণ করেন?","From whom did K. M. Cariappa take over command of the Indian Army?","के. एम. करियप्पा ने भारतीय सेना की कमान किससे संभाली थी?"],
+o:[
+["লর্ড মাউন্টব্যাটেন","Lord Mountbatten","लॉर्ड माउंटबेटन"],
+["জেনারেল স্যার এফ. আর. আর. বুচার","General Sir F. R. R. Bucher","जनरल सर एफ. आर. आर. बुचर"],
+["লর্ড কার্জন","Lord Curzon","लॉर्ड कर्जन"],
+["জেনারেল ডায়ার","General Dyer","जनरल डायर"]
+],a:1,
+e:["তিনি শেষ ব্রিটিশ Commander-in-Chief জেনারেল স্যার এফ. আর. আর. বুচারের কাছ থেকে কমান্ড গ্রহণ করেন।","He took command from the last British Commander-in-Chief, General Sir F. R. R. Bucher.","उन्होंने अंतिम ब्रिटिश कमांडर-इन-चीफ जनरल सर एफ. आर. आर. बुचर से कमान संभाली थी।"]
+},
+{
+q:["National Startup Day ভারতে কোন তারিখে পালন করা হয়?","On which date is National Startup Day observed in India?","भारत में राष्ट्रीय स्टार्टअप दिवस किस तारीख को मनाया जाता है?"],
+o:[
+["১৪ জানুয়ারি","January 14","14 जनवरी"],
+["১৫ জানুয়ারি","January 15","15 जनवरी"],
+["১৬ জানুয়ারি","January 16","16 जनवरी"],
+["১৮ জানুয়ারি","January 18","18 जनवरी"]
+],a:2,
+e:["ভারতে ১৬ জানুয়ারি National Startup Day পালন করা হয়।","National Startup Day is observed in India on January 16.","भारत में 16 जनवरी को राष्ट्रीय स्टार्टअप दिवस मनाया जाता है।"]
+},
+{
+q:["Startup India উদ্যোগটি কোন সালে চালু হয়?","In which year was the Startup India initiative launched?","स्टार्टअप इंडिया पहल किस वर्ष शुरू की गई थी?"],
+o:[
+["২০১৪","2014","2014"],
+["২০১৫","2015","2015"],
+["২০১৬","2016","2016"],
+["২০১৮","2018","2018"]
+],a:2,
+e:["Startup India উদ্যোগটি ১৬ জানুয়ারি ২০১৬ সালে চালু হয়।","The Startup India initiative was launched on January 16, 2016.","स्टार्टअप इंडिया पहल 16 जनवरी 2016 को शुरू की गई थी।"]
+},
+{
+q:["পরাক্রম দিবস (Parakram Diwas) কবে পালন করা হয়?","When is Parakram Diwas observed?","पराक्रम दिवस कब मनाया जाता है?"],
+o:[
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["২১ জানুয়ারি","January 21","21 जनवरी"],
+["২৩ জানুয়ারি","January 23","23 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"]
+],a:2,
+e:["নেতাজি সুভাষচন্দ্র বসুর জন্মবার্ষিকীতে ২৩ জানুয়ারি পরাক্রম দিবস পালন করা হয়।","Parakram Diwas is observed on January 23, the birth anniversary of Netaji Subhas Chandra Bose.","नेताजी सुभाष चंद्र बोस की जयंती पर 23 जनवरी को पराक्रम दिवस मनाया जाता है।"]
+},
+{
+q:["পরাক্রম দিবস কার জন্মবার্ষিকী উপলক্ষে পালন করা হয়?","Parakram Diwas marks the birth anniversary of whom?","पराक्रम दिवस किसकी जयंती पर मनाया जाता है?"],
+o:[
+["ভগৎ সিং","Bhagat Singh","भगत सिंह"],
+["সর্দার বল্লভভাই প্যাটেল","Sardar Vallabhbhai Patel","सरदार वल्लभभाई पटेल"],
+["সুভাষচন্দ্র বসু","Subhas Chandra Bose","सुभाष चंद्र बोस"],
+["চন্দ্রশেখর আজাদ","Chandra Shekhar Azad","चंद्रशेखर आज़ाद"]
+],a:2,
+e:["২৩ জানুয়ারি নেতাজি সুভাষচন্দ্র বসুর জন্মবার্ষিকী।","January 23 is the birth anniversary of Netaji Subhas Chandra Bose.","23 जनवरी नेताजी सुभाष चंद्र बोस की जयंती है।"]
+},
+{
+q:["ভারত সরকার কোন সালে ২৩ জানুয়ারিকে পরাক্রম দিবস হিসেবে ঘোষণা করে?","In which year did the Government of India announce January 23 as Parakram Diwas?","भारत सरकार ने 23 जनवरी को पराक्रम दिवस किस वर्ष घोषित किया?"],
+o:[
+["২০১৮","2018","2018"],
+["২০১৯","2019","2019"],
+["২০২১","2021","2021"],
+["২০২৩","2023","2023"]
+],a:2,
+e:["২০২১ সালে নেতাজির ১২৫তম জন্মবার্ষিকী উপলক্ষে ২৩ জানুয়ারিকে পরাক্রম দিবস ঘোষণা করা হয়।","January 23 was announced as Parakram Diwas in 2021, marking Netaji's 125th birth anniversary year.","नेताजी की 125वीं जयंती के अवसर पर 2021 में 23 जनवरी को पराक्रम दिवस घोषित किया गया।"]
+},
+{
+q:["জাতীয় কন্যাশিশু দিবস (National Girl Child Day) কবে পালন করা হয়?","When is National Girl Child Day observed in India?","भारत में राष्ट्रीय बालिका दिवस कब मनाया जाता है?"],
+o:[
+["২০ জানুয়ারি","January 20","20 जनवरी"],
+["২২ জানুয়ারি","January 22","22 जनवरी"],
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"]
+],a:2,
+e:["ভারতে প্রতি বছর ২৪ জানুয়ারি জাতীয় কন্যাশিশু দিবস পালন করা হয়।","National Girl Child Day is observed in India every year on January 24.","भारत में हर वर्ष 24 जनवरी को राष्ट्रीय बालिका दिवस मनाया जाता है।"]
+},
+{
+q:["জাতীয় কন্যাশিশু দিবস প্রথম কোন সালে শুরু হয়?","In which year was National Girl Child Day first initiated?","राष्ट्रीय बालिका दिवस पहली बार किस वर्ष शुरू किया गया था?"],
+o:[
+["২০০৫","2005","2005"],
+["২০০৬","2006","2006"],
+["২০০৮","2008","2008"],
+["২০১১","2011","2011"]
+],a:2,
+e:["মহিলা ও শিশু উন্নয়ন মন্ত্রক ২০০৮ সালে এই দিবসটি শুরু করে।","The Ministry of Women and Child Development initiated the observance in 2008.","महिला एवं बाल विकास मंत्रालय ने 2008 में इस दिवस की शुरुआत की थी।"]
+},
+{
+q:["জাতীয় কন্যাশিশু দিবস কোন মন্ত্রকের উদ্যোগে শুরু হয়?","Which ministry initiated National Girl Child Day?","राष्ट्रीय बालिका दिवस की शुरुआत किस मंत्रालय ने की?"],
+o:[
+["শিক্ষা মন্ত্রক","Ministry of Education","शिक्षा मंत्रालय"],
+["মহিলা ও শিশু উন্নয়ন মন্ত্রক","Ministry of Women and Child Development","महिला एवं बाल विकास मंत्रालय"],
+["স্বাস্থ্য ও পরিবার কল্যাণ মন্ত্রক","Ministry of Health and Family Welfare","स्वास्थ्य एवं परिवार कल्याण मंत्रालय"],
+["স্বরাষ্ট্র মন্ত্রক","Ministry of Home Affairs","गृह मंत्रालय"]
+],a:1,
+e:["মহিলা ও শিশু উন্নয়ন মন্ত্রক ২০০৮ সালে দিবসটি শুরু করে।","It was initiated by the Ministry of Women and Child Development in 2008.","इसकी शुरुआत 2008 में महिला एवं बाल विकास मंत्रालय ने की थी।"]
+},
+{
+q:["আন্তর্জাতিক শিক্ষা দিবস (International Day of Education) কবে?","When is the International Day of Education observed?","अंतरराष्ट्रीय शिक्षा दिवस कब मनाया जाता है?"],
+o:[
+["১২ জানুয়ারি","January 12","12 जनवरी"],
+["১৮ জানুয়ারি","January 18","18 जनवरी"],
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৭ জানুয়ারি","January 27","27 जनवरी"]
+],a:2,
+e:["জাতিসংঘের আন্তর্জাতিক শিক্ষা দিবস ২৪ জানুয়ারি পালন করা হয়।","The UN's International Day of Education is observed on January 24.","संयुक्त राष्ट्र का अंतरराष्ट्रीय शिक्षा दिवस 24 जनवरी को मनाया जाता है।"]
+},
+{
+q:["আন্তর্জাতিক শিক্ষা দিবস কোন সংস্থা ঘোষণা করে?","Which organization proclaimed the International Day of Education?","अंतरराष्ट्रीय शिक्षा दिवस किस संगठन ने घोषित किया?"],
+o:[
+["জাতিসংঘ সাধারণ পরিষদ","UN General Assembly","संयुक्त राष्ट्र महासभा"],
+["বিশ্ব স্বাস্থ্য সংস্থা","World Health Organization","विश्व स्वास्थ्य संगठन"],
+["বিশ্ব বাণিজ্য সংস্থা","World Trade Organization","विश्व व्यापार संगठन"],
+["বিশ্বব্যাংক","World Bank","विश्व बैंक"]
+],a:0,
+e:["জাতিসংঘ সাধারণ পরিষদ ২০১৮ সালের ৩ ডিসেম্বর ২৪ জানুয়ারিকে আন্তর্জাতিক শিক্ষা দিবস ঘোষণা করে।","The UN General Assembly proclaimed the day on December 3, 2018.","संयुक्त राष्ट्र महासभा ने 3 दिसंबर 2018 को इस दिवस की घोषणा की थी।"]
+},
+{
+q:["প্রথম আন্তর্জাতিক শিক্ষা দিবস কোন সালে পালন করা হয়?","In which year was the first International Day of Education observed?","पहला अंतरराष्ट्रीय शिक्षा दिवस किस वर्ष मनाया गया था?"],
+o:[
+["২০১৭","2017","2017"],
+["২০১৮","2018","2018"],
+["২০১৯","2019","2019"],
+["২০২০","2020","2020"]
+],a:2,
+e:["প্রথম আন্তর্জাতিক শিক্ষা দিবস ২৪ জানুয়ারি ২০১৯ সালে পালন করা হয়।","The first International Day of Education was observed on January 24, 2019.","पहला अंतरराष्ट्रीय शिक्षा दिवस 24 जनवरी 2019 को मनाया गया था।"]
+},
+{
+q:["ভারতের জাতীয় ভোটার দিবস (National Voters' Day) কবে?","When is National Voters' Day observed in India?","भारत में राष्ट्रीय मतदाता दिवस कब मनाया जाता है?"],
+o:[
+["২৩ জানুয়ারি","January 23","23 जनवरी"],
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৫ জানুয়ারি","January 25","25 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"]
+],a:2,
+e:["প্রতি বছর ২৫ জানুয়ারি জাতীয় ভোটার দিবস পালন করা হয়।","National Voters' Day is observed every year on January 25.","राष्ट्रीय मतदाता दिवस हर वर्ष 25 जनवरी को मनाया जाता है।"]
+},
+{
+q:["জাতীয় ভোটার দিবস প্রথম কোন সালে পালন করা হয়?","In which year was National Voters' Day first observed?","राष्ट्रीय मतदाता दिवस पहली बार किस वर्ष मनाया गया था?"],
+o:[
+["২০০৮","2008","2008"],
+["২০০৯","2009","2009"],
+["২০১১","2011","2011"],
+["২০১৩","2013","2013"]
+],a:2,
+e:["জাতীয় ভোটার দিবস প্রথম ২০১১ সালে পালন করা হয়।","National Voters' Day was first observed in 2011.","राष्ट्रीय मतदाता दिवस पहली बार 2011 में मनाया गया था।"]
+},
+{
+q:["ভারতের নির্বাচন কমিশন (Election Commission of India) কবে প্রতিষ্ঠিত হয়?","When was the Election Commission of India established?","भारत निर्वाचन आयोग की स्थापना कब हुई थी?"],
+o:[
+["১৫ আগস্ট ১৯৪৭","15 August 1947","15 अगस्त 1947"],
+["২৬ জানুয়ারি ১৯৫০","26 January 1950","26 जनवरी 1950"],
+["২৫ জানুয়ারি ১৯৫০","25 January 1950","25 जनवरी 1950"],
+["২ অক্টোবর ১৯৫০","2 October 1950","2 अक्टूबर 1950"]
+],a:2,
+e:["ভারতের নির্বাচন কমিশন ২৫ জানুয়ারি ১৯৫০ সালে প্রতিষ্ঠিত হয়।","The Election Commission of India was established on January 25, 1950.","भारत निर्वाचन आयोग की स्थापना 25 जनवरी 1950 को हुई थी।"]
+},
+{
+q:["ভারতের প্রজাতন্ত্র দিবস কবে পালন করা হয়?","When is Republic Day celebrated in India?","भारत में गणतंत्र दिवस कब मनाया जाता है?"],
+o:[
+["১৫ আগস্ট","August 15","15 अगस्त"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"],
+["২ অক্টোবর","October 2","2 अक्टूबर"],
+["২৬ নভেম্বর","November 26","26 नवंबर"]
+],a:1,
+e:["প্রতি বছর ২৬ জানুয়ারি ভারতের প্রজাতন্ত্র দিবস পালন করা হয়।","India celebrates Republic Day every year on January 26.","भारत में हर वर्ष 26 जनवरी को गणतंत्र दिवस मनाया जाता है।"]
+},
+{
+q:["ভারতের সংবিধান কবে কার্যকর হয়?","When did the Constitution of India come into effect?","भारत का संविधान कब लागू हुआ?"],
+o:[
+["১৫ আগস্ট ১৯৪৭","15 August 1947","15 अगस्त 1947"],
+["২৬ নভেম্বর ১৯৪৯","26 November 1949","26 नवंबर 1949"],
+["২৬ জানুয়ারি ১৯৫০","26 January 1950","26 जनवरी 1950"],
+["২ জানুয়ারি ১৯৫০","2 January 1950","2 जनवरी 1950"]
+],a:2,
+e:["ভারতের সংবিধান ২৬ জানুয়ারি ১৯৫০ সালে কার্যকর হয়।","The Constitution of India came into effect on January 26, 1950.","भारत का संविधान 26 जनवरी 1950 को लागू हुआ था।"]
+},
+{
+q:["আন্তর্জাতিক শুল্ক দিবস (International Customs Day) কবে পালন করা হয়?","When is International Customs Day observed?","अंतरराष्ट्रीय सीमा शुल्क दिवस कब मनाया जाता है?"],
+o:[
+["২০ জানুয়ারি","January 20","20 जनवरी"],
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"],
+["২৮ জানুয়ারি","January 28","28 जनवरी"]
+],a:2,
+e:["প্রতি বছর ২৬ জানুয়ারি আন্তর্জাতিক শুল্ক দিবস পালন করা হয়।","International Customs Day is observed every year on January 26.","अंतरराष्ट्रीय सीमा शुल्क दिवस हर वर्ष 26 जनवरी को मनाया जाता है।"]
+},
+{
+q:["আন্তর্জাতিক শুল্ক দিবসের সঙ্গে কোন সংস্থা যুক্ত?","Which organization is associated with International Customs Day?","अंतरराष्ट्रीय सीमा शुल्क दिवस किस संगठन से संबंधित है?"],
+o:[
+["WCO","WCO","WCO"],
+["WHO","WHO","WHO"],
+["UNESCO","UNESCO","यूनेस्को"],
+["ILO","ILO","आईएलओ"]
+],a:0,
+e:["World Customs Organization (WCO)-এর সঙ্গে আন্তর্জাতিক শুল্ক দিবস যুক্ত।","International Customs Day is associated with the World Customs Organization (WCO).","अंतरराष्ट्रीय सीमा शुल्क दिवस विश्व सीमा शुल्क संगठन (WCO) से संबंधित है।"]
+},
+{
+q:["আন্তর্জাতিক পরিচ্ছন্ন শক্তি দিবস (International Day of Clean Energy) কবে?","When is the International Day of Clean Energy?","अंतरराष्ट्रीय स्वच्छ ऊर्जा दिवस कब मनाया जाता है?"],
+o:[
+["১৪ জানুয়ারি","January 14","14 जनवरी"],
+["২০ জানুয়ারি","January 20","20 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"],
+["৩০ জানুয়ারি","January 30","30 जनवरी"]
+],a:2,
+e:["জাতিসংঘের আন্তর্জাতিক পরিচ্ছন্ন শক্তি দিবস ২৬ জানুয়ারি পালন করা হয়।","The UN's International Day of Clean Energy is observed on January 26.","संयुक्त राष्ट्र का अंतरराष्ट्रीय स्वच्छ ऊर्जा दिवस 26 जनवरी को मनाया जाता है।"]
+},
+{
+q:["আন্তর্জাতিক হলোকাস্ট স্মরণ দিবস কবে পালন করা হয়?","When is the International Holocaust Remembrance Day observed?","अंतरराष्ट्रीय होलोकॉस्ट स्मरण दिवस कब मनाया जाता है?"],
+o:[
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"],
+["২৭ জানুয়ারি","January 27","27 जनवरी"],
+["৩০ জানুয়ারি","January 30","30 जनवरी"]
+],a:2,
+e:["জাতিসংঘ ২৭ জানুয়ারি হলোকাস্টের শিকারদের স্মরণে আন্তর্জাতিক দিবস পালন করে।","The UN observes January 27 in memory of the victims of the Holocaust.","संयुक्त राष्ट्र 27 जनवरी को होलोकॉस्ट के पीड़ितों की स्मृति में यह दिवस मनाता है।"]
+},
+{
+q:["আউশভিৎস-বির্কেনাউ শিবির কবে মুক্ত হয়েছিল?","On what date was the Auschwitz-Birkenau camp liberated?","ऑशविट्ज़-बिरकेनाउ शिविर किस तारीख को मुक्त हुआ था?"],
+o:[
+["১৫ জানুয়ারি ১৯৪৫","15 January 1945","15 जनवरी 1945"],
+["২০ জানুয়ারি ১৯৪৫","20 January 1945","20 जनवरी 1945"],
+["২৭ জানুয়ারি ১৯৪৫","27 January 1945","27 जनवरी 1945"],
+["৩০ জানুয়ারি ১৯৪৫","30 January 1945","30 जनवरी 1945"]
+],a:2,
+e:["আউশভিৎস-বির্কেনাউ শিবির ২৭ জানুয়ারি ১৯৪৫ সালে মুক্ত হয়।","Auschwitz-Birkenau was liberated on January 27, 1945.","ऑशविट्ज़-बिरकेनाउ शिविर 27 जनवरी 1945 को मुक्त हुआ था।"]
+},
+{
+q:["আন্তর্জাতিক শান্তিপূর্ণ সহাবস্থান দিবস (International Day of Peaceful Coexistence) কবে?","When is the International Day of Peaceful Coexistence?","अंतरराष्ट्रीय शांतिपूर्ण सह-अस्तित्व दिवस कब मनाया जाता है?"],
+o:[
+["২৪ জানুয়ারি","January 24","24 जनवरी"],
+["২৬ জানুয়ারি","January 26","26 जनवरी"],
+["২৭ জানুয়ারি","January 27","27 जनवरी"],
+["২৮ জানুয়ারি","January 28","28 जनवरी"]
+],a:3,
+e:["জাতিসংঘ ২০২৫ সালে ২৮ জানুয়ারিকে আন্তর্জাতিক শান্তিপূর্ণ সহাবস্থান দিবস ঘোষণা করে।","The UN proclaimed January 28 as the International Day of Peaceful Coexistence in 2025.","संयुक्त राष्ट्र ने 2025 में 28 जनवरी को अंतरराष्ट्रीय शांतिपूर्ण सह-अस्तित्व दिवस घोषित किया।"]
+},
+{
+q:["ভারতে শহিদ দিবস (Martyrs' Day) ৩০ জানুয়ারি কাকে স্মরণ করে পালন করা হয়?","Whom does India remember on Martyrs' Day observed on January 30?","भारत में 30 जनवरी को शहीद दिवस किसकी स्मृति में मनाया जाता है?"],
+o:[
+["ভগৎ সিং","Bhagat Singh","भगत सिंह"],
+["মহাত্মা গান্ধী","Mahatma Gandhi","महात्मा गांधी"],
+["সুভাষচন্দ্র বসু","Subhas Chandra Bose","सुभाष चंद्र बोस"],
+["জওহরলাল নেহরু","Jawaharlal Nehru","जवाहरलाल नेहरू"]
+],a:1,
+e:["৩০ জানুয়ারি ১৯৪৮ সালে মহাত্মা গান্ধীর মৃত্যুর স্মরণে ভারতে শহিদ দিবস পালন করা হয়।","India observes Martyrs' Day on January 30 in memory of Mahatma Gandhi, who died on that date in 1948.","भारत में 30 जनवरी को महात्मा गांधी की स्मृति में शहीद दिवस मनाया जाता है।"]
+}
+];
+
+const ui = {
+bn:{
+next:"পরের প্রশ্ন",finish:"ফলাফল দেখুন",question:"প্রশ্ন",score:"স্কোর",
+correct:"সঠিক উত্তর!",wrong:"ভুল উত্তর। সঠিক উত্তরটি চিহ্নিত করা হয়েছে।",
+result:"আপনার ফলাফল",out:"মোট",of:"এর মধ্যে",restart:"আবার শুরু করুন",
+complete:"সেট সম্পূর্ণ হয়েছে। ভালো চেষ্টা!",
+language:"ভাষা"
+},
+en:{
+next:"Next Question",finish:"See Result",question:"Question",score:"Score",
+correct:"Correct answer!",wrong:"Incorrect. The correct answer is highlighted.",
+result:"Your Result",out:"Total",of:"out of",restart:"Restart",
+complete:"Set completed. Good effort!",
+language:"Language"
+},
+hi:{
+next:"अगला प्रश्न",finish:"परिणाम देखें",question:"प्रश्न",score:"स्कोर",
+correct:"सही उत्तर!",wrong:"गलत उत्तर। सही उत्तर दिखाया गया है।",
+result:"आपका परिणाम",out:"कुल",of:"में से",restart:"फिर से शुरू करें",
+complete:"सेट पूरा हुआ। अच्छा प्रयास!",
+language:"भाषा"
+}
+};
+
+let lang="bn";
+let current=0;
+let score=0;
+let answered=false;
+
+function changeLanguage(){
+lang=document.getElementById("language").value;
+render();
+}
+
+function render(){
+const t=ui[lang];
+document.getElementById("setTitle").textContent=
+lang==="bn"?"জানুয়ারি – সেট ১":
+lang==="en"?"January – Set 1":"जनवरी – सेट 1";
+
+if(current>=questions.length){showResult();return;}
+
+const item=questions[current];
+document.getElementById("counter").textContent=
+`${t.question} ${current+1} / ${questions.length}`;
+document.getElementById("score").textContent=`${t.score}: ${score}`;
+document.getElementById("bar").style.width=
+`${(current/questions.length)*100}%`;
+document.getElementById("question").textContent=item.q[["bn","en","hi"].indexOf(lang)];
+
+const box=document.getElementById("options");
+box.innerHTML="";
+item.o.forEach((option,index)=>{
+const button=document.createElement("button");
+button.className="option";
+button.textContent=String.fromCharCode(65+index)+". "+option[["bn","en","hi"].indexOf(lang)];
+button.onclick=()=>choose(index);
+box.appendChild(button);
+});
+
+document.getElementById("feedback").style.display="none";
+document.getElementById("next").disabled=true;
+document.getElementById("next").textContent=
+current===questions.length-1?t.finish:t.next;
+answered=false;
+}
+
+function choose(index){
+if(answered)return;
+answered=true;
+const item=questions[current];
+const buttons=document.querySelectorAll(".option");
+buttons.forEach((button,i)=>{
+button.disabled=true;
+if(i===item.a)button.classList.add("correct");
+if(i===index && index!==item.a)button.classList.add("wrong");
+});
+const t=ui[lang];
+const feedback=document.getElementById("feedback");
+feedback.style.display="block";
+feedback.style.background=index===item.a?"#e4f7eb":"#ffebeb";
+feedback.style.color=index===item.a?"#126332":"#a32020";
+const li=["bn","en","hi"].indexOf(lang);
+feedback.textContent=(index===item.a?t.correct:t.wrong)+" "+item.e[li];
+if(index===item.a)score++;
+document.getElementById("score").textContent=`${t.score}: ${score}`;
+document.getElementById("next").disabled=false;
+}
+
+function nextQuestion(){
+if(!answered)return;
+current++;
+if(current>=questions.length){showResult();return;}
+render();
+}
+
+function showResult(){
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+const t=ui[lang];
+document.getElementById("resultTitle").textContent=t.result;
+document.getElementById("resultScore").textContent=
+`${t.out}: ${score} ${t.of} ${questions.length}`;
+document.getElementById("resultMessage").textContent=t.complete;
+document.getElementById("restart").textContent=t.restart;
+document.getElementById("bar").style.width="100%";
+}
+
+function restartQuiz(){
+current=0;score=0;answered=false;
+document.getElementById("quiz").style.display="block";
+document.getElementById("result").style.display="none";
+render();
+}
+
+render();
+</script>
+</body>
+</html>
