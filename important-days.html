@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PADHAI - Important Days January</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: Arial, "Noto Sans Bengali", sans-serif;
+  background: #f3f5fa;
+  color: #202637;
+}
+
+.container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.header {
+  background: #243b80;
+  color: white;
+  padding: 22px 18px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 25px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 14px;
+  opacity: .9;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.back-btn {
+  border: none;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.badge {
+  background: #e3eaff;
+  color: #243b80;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.progress-bg {
+  height: 9px;
+  background: #dce1eb;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #2874d0;
+  transition: width .3s;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.06);
+}
+
+.question-number {
+  color: #2874d0;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.question {
+  font-size: 19px;
+  line-height: 1.7;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.option {
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1.5px solid #dce1eb;
+  border-radius: 11px;
+  background: white;
+  color: #202637;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.option.correct {
+  background: #d9f7e5;
+  border-color: #219653;
+  color: #126b37;
+}
+
+.option.wrong {
+  background: #ffe0e0;
+  border-color: #d93636;
+  color: #a51f1f;
+}
+
+.feedback {
+  display: none;
+  padding: 14px;
+  margin-top: 16px;
+  border-radius: 10px;
+  line-height: 1.7;
+  font-size: 15px;
+  background: #edf2ff;
+}
+
+.next-btn, .restart-btn {
+  display: none;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 11px;
+  background: #243b80;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 18px;
+  cursor: pointer;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #536078;
+}
+
+.result {
+  display: none;
+  text-align: center;
+  background: white;
+  padding: 28px 18px;
+  border-radius: 16px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.06);
+}
+
+.result h2 {
+  color: #243b80;
+}
+
+.final-score {
+  font-size: 35px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #243b80;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #788195;
+  margin: 20px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="top-row">
+    <button class="back-btn" onclick="history.back()">← ফিরে যাও</button>
+    <span class="badge">RAILWAY GK</span>
+  </div>
+
+  <div class="header">
+    <h1>Important Days</h1>
+    <p>জানুয়ারি মাস • প্রথম সেট • ৫০টি প্রশ্ন</p>
+  </div>
+
+  <div id="quizArea">
+
+    <div class="progress-info">
+      <span id="progressText">প্রশ্ন ১ / ৫০</span>
+      <span id="scoreText">স্কোর: ০</span>
+    </div>
+
+    <div class="progress-bg">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="card">
+      <div class="question-number" id="questionNumber">
+        প্রশ্ন ১
+      </div>
+
+      <div class="question" id="questionText"></div>
+
+      <div id="optionsArea"></div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+        পরের প্রশ্ন →
+      </button>
+
+      <div class="score-row">
+        <span id="answeredText">উত্তর দেওয়া হয়েছে: ০</span>
+        <span>মোট প্রশ্ন: ৫০</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="resultArea">
+    <h2>কুইজ সম্পূর্ণ হয়েছে!</h2>
+    <p>জানুয়ারি Important Days – প্রথম সেট</p>
+    <div class="final-score" id="finalScore"></div>
+    <p id="resultMessage"></p>
+    <button class="restart-btn" style="display:block" onclick="restartQuiz()">
+      আবার শুরু করো
+    </button>
+  </div>
+
+  <div class="footer">
+    PADHAI • Learn Every Day
+  </div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q: "বিশ্ব ব্রেইল দিবস কবে পালিত হয়?",
+o: ["২ জানুয়ারি", "৪ জানুয়ারি", "৫ জানুয়ারি", "৬ জানুয়ারি"],
+a: 1,
+e: "জাতিসংঘ ৪ জানুয়ারি বিশ্ব ব্রেইল দিবস পালন করে।"
+},
+
+{
+q: "ব্রেইল পদ্ধতি কার নামে নামকরণ করা হয়েছে?",
+o: ["লুই ব্রেইল", "হেলেন কেলার", "টমাস এডিসন", "আলেকজান্ডার বেল"],
+a: 0,
+e: "লুই ব্রেইল এই লেখার পদ্ধতি তৈরি করেছিলেন।"
+},
+
+{
+q: "লুই ব্রেইল কোন দেশের নাগরিক ছিলেন?",
+o: ["জার্মানি", "ইতালি", "ফ্রান্স", "ইংল্যান্ড"],
+a: 2,
+e: "লুই ব্রেইল ছিলেন ফ্রান্সের নাগরিক।"
+},
+
+{
+q: "ব্রেইল পদ্ধতি প্রধানত কাদের জন্য ব্যবহৃত হয়?",
+o: ["শ্রবণ প্রতিবন্ধী", "দৃষ্টিপ্রতিবন্ধী", "বাক্‌প্রতিবন্ধী", "শারীরিক প্রতিবন্ধী"],
+a: 1,
+e: "ব্রেইল হলো স্পর্শের মাধ্যমে পড়া ও লেখার একটি পদ্ধতি।"
+},
+
+{
+q: "প্রবাসী ভারতীয় দিবস কবে পালিত হয়?",
+o: ["৮ জানুয়ারি", "৯ জানুয়ারি", "১০ জানুয়ারি", "১২ জানুয়ারি"],
+a: 1,
+e: "প্রতি বছর ৯ জানুয়ারি প্রবাসী ভারতীয় দিবস পালিত হয়।"
+},
+
+{
+q: "প্রবাসী ভারতীয় দিবস প্রথম কোন সালে পালিত হয়?",
+o: ["২০০১", "২০০২", "২০০৩", "২০০৫"],
+a: 2,
+e: "প্রথম প্রবাসী ভারতীয় দিবস ২০০৩ সালে পালিত হয়।"
+},
+
+{
+q: "৯ জানুয়ারি তারিখটি প্রবাসী ভারতীয় দিবসের জন্য বেছে নেওয়া হয়েছে কেন?",
+o: [
+"গান্ধীজির জন্মদিন",
+"গান্ধীজির দক্ষিণ আফ্রিকা থেকে ভারতে প্রত্যাবর্তন",
+"ভারতের স্বাধীনতা দিবস",
+"ভারতের সংবিধান গৃহীত হওয়া"
+],
+a: 1,
+e: "মহাত্মা গান্ধী ৯ জানুয়ারি ১৯১৫ সালে দক্ষিণ আফ্রিকা থেকে ভারতে ফিরে আসেন।"
+},
+
+{
+q: "২০১৫ সাল থেকে প্রবাসী ভারতীয় দিবসের মূল সম্মেলন সাধারণত কত বছর অন্তর অনুষ্ঠিত হয়?",
+o: ["প্রতি বছর", "২ বছর", "৩ বছর", "৫ বছর"],
+a: 1,
+e: "২০১৫ সাল থেকে সম্মেলনের ধরন পরিবর্তন করে সাধারণত দু’বছর অন্তর করা হয়।"
+},
+
+{
+q: "বিশ্ব হিন্দি দিবস কবে পালিত হয়?",
+o: ["৯ জানুয়ারি", "১০ জানুয়ারি", "১১ জানুয়ারি", "১২ জানুয়ারি"],
+a: 1,
+e: "প্রতি বছর ১০ জানুয়ারি বিশ্ব হিন্দি দিবস পালিত হয়।"
+},
+
+{
+q: "প্রথম বিশ্ব হিন্দি দিবস কোন সালে পালিত হয়?",
+o: ["২০০৪", "২০০৫", "২০০৬", "২০০৮"],
+a: 2,
+e: "প্রথম বিশ্ব হিন্দি দিবস ১০ জানুয়ারি ২০০৬ সালে পালিত হয়।"
+},
+
+{
+q: "প্রথম বিশ্ব হিন্দি সম্মেলন কোন সালে অনুষ্ঠিত হয়?",
+o: ["১৯৬৫", "১৯৭০", "১৯৭৫", "১৯৮০"],
+a: 2,
+e: "প্রথম বিশ্ব হিন্দি সম্মেলন ১৯৭৫ সালে অনুষ্ঠিত হয়।"
+},
+
+{
+q: "প্রথম বিশ্ব হিন্দি সম্মেলন ভারতের কোথায় অনুষ্ঠিত হয়েছিল?",
+o: ["দিল্লি", "নাগপুর", "কলকাতা", "মুম্বাই"],
+a: 1,
+e: "প্রথম বিশ্ব হিন্দি সম্মেলন মহারাষ্ট্রের নাগপুরে অনুষ্ঠিত হয়েছিল।"
+},
+
+{
+q: "ভারতে জাতীয় যুব দিবস কবে পালিত হয়?",
+o: ["১০ জানুয়ারি", "১১ জানুয়ারি", "১২ জানুয়ারি", "১৫ জানুয়ারি"],
+a: 2,
+e: "১২ জানুয়ারি জাতীয় যুব দিবস পালিত হয়।"
+},
+
+{
+q: "জাতীয় যুব দিবস কার জন্মবার্ষিকী উপলক্ষে পালিত হয়?",
+o: ["রবীন্দ্রনাথ ঠাকুর", "স্বামী বিবেকানন্দ", "মহাত্মা গান্ধী", "সুভাষচন্দ্র বসু"],
+a: 1,
+e: "স্বামী বিবেকানন্দের জন্মদিন ১২ জানুয়ারি জাতীয় যুব দিবস হিসেবে পালিত হয়।"
+},
+
+{
+q: "স্বামী বিবেকানন্দের জন্ম কত সালে?",
+o: ["১৮৬১", "১৮৬২", "১৮৬৩", "১৮৬৫"],
+a: 2,
+e: "স্বামী বিবেকানন্দ ১২ জানুয়ারি ১৮৬৩ সালে জন্মগ্রহণ করেন।"
+},
+
+{
+q: "স্বামী বিবেকানন্দের জন্মস্থান কোথায়?",
+o: ["কটক", "কলকাতা", "ঢাকা", "মেদিনীপুর"],
+a: 1,
+e: "স্বামী বিবেকানন্দ কলকাতায় জন্মগ্রহণ করেন।"
+},
+
+{
+q: "ভারতে জাতীয় যুব দিবস পালন শুরু হয় কোন সালে?",
+o: ["১৯৭৫", "১৯৮০", "১৯৮৫", "১৯৯০"],
+a: 2,
+e: "ভারত সরকার ১৯৮৫ সাল থেকে ১২ জানুয়ারি জাতীয় যুব দিবস পালন শুরু করে।"
+},
+
+{
+q: "বিশ্ব যুক্তি দিবস (World Logic Day) কবে পালিত হয়?",
+o: ["১২ জানুয়ারি", "১৪ জানুয়ারি", "১৬ জানুয়ারি", "১৮ জানুয়ারি"],
+a: 1,
+e: "প্রতি বছর ১৪ জানুয়ারি বিশ্ব যুক্তি দিবস পালিত হয়।"
+},
+
+{
+q: "বিশ্ব যুক্তি দিবস কোন সংস্থার উদ্যোগে স্বীকৃতি পেয়েছে?",
+o: ["WHO", "UNESCO", "IMF", "WTO"],
+a: 1,
+e: "UNESCO বিশ্ব যুক্তি দিবসকে স্বীকৃতি দিয়েছে।"
+},
+
+{
+q: "বিশ্ব যুক্তি দিবস প্রথম কোন সালে পালিত হয়?",
+o: ["২০১৭", "২০১৮", "২০১৯", "২০২০"],
+a: 2,
+e: "বিশ্ব যুক্তি দিবস ২০১৯ সালে প্রথম পালিত হয়।"
+},
+
+{
+q: "ভারতীয় সেনা দিবস কবে পালিত হয়?",
+o: ["১২ জানুয়ারি", "১৪ জানুয়ারি", "১৫ জানুয়ারি", "১৬ জানুয়ারি"],
+a: 2,
+e: "প্রতি বছর ১৫ জানুয়ারি ভারতীয় সেনা দিবস পালিত হয়।"
+},
+
+{
+q: "১৫ জানুয়ারি ১৯৪৯ সালে কে ভারতীয় সেনাবাহিনীর প্রথম ভারতীয় Commander-in-Chief হন?",
+o: ["স্যাম মানেকশ", "কে. এম. কারিয়াপ্পা", "কে. এস. থিমাইয়া", "বিপিন রাওয়াত"],
+a: 1,
+e: "জেনারেল কে. এম. কারিয়াপ্পা ১৫ জানুয়ারি ১৯৪৯ সালে দায়িত্ব গ্রহণ করেন।"
+},
+
+{
+q: "স্বাধীন ভারতের প্রথম ভারতীয় Commander-in-Chief কে ছিলেন?",
+o: ["কে. এম. কারিয়াপ্পা", "স্যাম মানেকশ", "জে. এন. চৌধুরী", "কে. এস. থিমাইয়া"],
+a: 0,
+e: "কে. এম. কারিয়াপ্পা ছিলেন স্বাধীন ভারতের প্রথম ভারতীয় Commander-in-Chief।"
+},
+
+{
+q: "ভারতে জাতীয় স্টার্টআপ দিবস কবে পালিত হয়?",
+o: ["১৪ জানুয়ারি", "১৫ জানুয়ারি", "১৬ জানুয়ারি", "১৮ জানুয়ারি"],
+a: 2,
+e: "প্রতি বছর ১৬ জানুয়ারি জাতীয় স্টার্টআপ দিবস পালিত হয়।"
+},
+
+{
+q: "Startup India উদ্যোগ কবে চালু হয়েছিল?",
+o: ["১৬ জানুয়ারি ২০১৫", "১৬ জানুয়ারি ২০১৬", "১৬ জানুয়ারি ২০১৭", "১৬ জানুয়ারি ২০১৮"],
+a: 1,
+e: "Startup India উদ্যোগ ১৬ জানুয়ারি ২০১৬ সালে চালু হয়েছিল।"
+},
+
+{
+q: "ভারতে জাতীয় স্টার্টআপ দিবস প্রথম কোন সালে পালন করা হয়?",
+o: ["২০২০", "২০২১", "২০২২", "২০২৩"],
+a: 2,
+e: "২০২২ সালে প্রথম জাতীয় স্টার্টআপ দিবস পালন করা হয়।"
+},
+
+{
+q: "পরাক্রম দিবস কবে পালিত হয়?",
+o: ["২১ জানুয়ারি", "২২ জানুয়ারি", "২৩ জানুয়ারি", "২৪ জানুয়ারি"],
+a: 2,
+e: "২৩ জানুয়ারি নেতাজির জন্মদিনে পরাক্রম দিবস পালিত হয়।"
+},
+
+{
+q: "নেতাজি সুভাষচন্দ্র বসুর জন্ম কত সালে?",
+o: ["১৮৯৫", "১৮৯৬", "১৮৯৭", "১৮৯৮"],
+a: 2,
+e: "নেতাজি ২৩ জানুয়ারি ১৮৯৭ সালে জন্মগ্রহণ করেন।"
+},
+
+{
+q: "নেতাজি সুভাষচন্দ্র বসুর জন্মস্থান কোথায়?",
+o: ["কলকাতা", "কটক", "ঢাকা", "পাটনা"],
+a: 1,
+e: "নেতাজির জন্ম ওড়িশার কটকে হয়েছিল।"
+},
+
+{
+q: "ভারত সরকার কোন সালে ২৩ জানুয়ারিকে পরাক্রম দিবস হিসেবে ঘোষণা করে?",
+o: ["২০১৮", "২০১৯", "২০২০", "২০২১"],
+a: 3,
+e: "২০২১ সালে নেতাজির ১২৫তম জন্মবার্ষিকী উপলক্ষে এই ঘোষণা করা হয়।"
+},
+
+{
+q: "জাতীয় কন্যাশিশু দিবস কবে পালিত হয়?",
+o: ["২২ জানুয়ারি", "২৩ জানুয়ারি", "২৪ জানুয়ারি", "২৫ জানুয়ারি"],
+a: 2,
+e: "ভারতে ২৪ জানুয়ারি জাতীয় কন্যাশিশু দিবস পালিত হয়।"
+},
+
+{
+q: "ভারতে জাতীয় কন্যাশিশু দিবস পালন শুরু হয় কোন সালে?",
+o: ["২০০৫", "২০০৬", "২০০৮", "২০১০"],
+a: 2,
+e: "জাতীয় কন্যাশিশু দিবস ২০০৮ সাল থেকে পালিত হচ্ছে।"
+},
+
+{
+q: "জাতীয় কন্যাশিশু দিবসের সঙ্গে কোন মন্ত্রক যুক্ত?",
+o: [
+"শিক্ষা মন্ত্রক",
+"নারী ও শিশু উন্নয়ন মন্ত্রক",
+"স্বরাষ্ট্র মন্ত্রক",
+"প্রতিরক্ষা মন্ত্রক"
+],
+a: 1,
+e: "নারী ও শিশু উন্নয়ন মন্ত্রক এই দিবসের সঙ্গে যুক্ত।"
+},
+
+{
+q: "আন্তর্জাতিক শিক্ষা দিবস কবে পালিত হয়?",
+o: ["২২ জানুয়ারি", "২৩ জানুয়ারি", "২৪ জানুয়ারি", "২৬ জানুয়ারি"],
+a: 2,
+e: "প্রতি বছর ২৪ জানুয়ারি আন্তর্জাতিক শিক্ষা দিবস পালিত হয়।"
+},
+
+{
+q: "আন্তর্জাতিক শিক্ষা দিবস কে ঘোষণা করেছে?",
+o: ["জাতিসংঘের সাধারণ পরিষদ", "WHO", "IMF", "WTO"],
+a: 0,
+e: "জাতিসংঘের সাধারণ পরিষদ ২৪ জানুয়ারিকে আন্তর্জাতিক শিক্ষা দিবস ঘোষণা করে।"
+},
+
+{
+q: "আন্তর্জাতিক শিক্ষা দিবস প্রথম কোন সালে পালিত হয়?",
+o: ["২০১৬", "২০১৭", "২০১৮", "২০১৯"],
+a: 3,
+e: "প্রথম আন্তর্জাতিক শিক্ষা দিবস ২০১৯ সালে পালিত হয়।"
+},
+
+{
+q: "জাতীয় ভোটার দিবস কবে পালিত হয়?",
+o: ["২৪ জানুয়ারি", "২৫ জানুয়ারি", "২৬ জানুয়ারি", "২৭ জানুয়ারি"],
+a: 1,
+e: "প্রতি বছর ২৫ জানুয়ারি জাতীয় ভোটার দিবস পালিত হয়।"
+},
+
+{
+q: "ভারতের নির্বাচন কমিশন কবে প্রতিষ্ঠিত হয়?",
+o: ["২৫ জানুয়ারি ১৯৪৯", "২৫ জানুয়ারি ১৯৫০", "২৬ জানুয়ারি ১৯৫০", "১৫ আগস্ট ১৯৪৭"],
+a: 1,
+e: "ভারতের নির্বাচন কমিশন ২৫ জানুয়ারি ১৯৫০ সালে প্রতিষ্ঠিত হয়।"
+},
+
+{
+q: "ভারতে প্রথম জাতীয় ভোটার দিবস কোন সালে পালিত হয়?",
+o: ["২০০৯", "২০১০", "২০১১", "২০১২"],
+a: 2,
+e: "প্রথম জাতীয় ভোটার দিবস ২০১১ সালে পালিত হয়।"
+},
+
+{
+q: "ভারতে জাতীয় পর্যটন দিবস কবে পালিত হয়?",
+o: ["২৩ জানুয়ারি", "২৪ জানুয়ারি", "২৫ জানুয়ারি", "২৭ জানুয়ারি"],
+a: 2,
+e: "ভারতে ২৫ জানুয়ারি জাতীয় পর্যটন দিবস পালিত হয়।"
+},
+
+{
+q: "ভারতের প্রজাতন্ত্র দিবস কবে পালিত হয়?",
+o: ["১৫ আগস্ট", "২৬ জানুয়ারি", "২ অক্টোবর", "১৪ নভেম্বর"],
+a: 1,
+e: "প্রতি বছর ২৬ জানুয়ারি ভারতের প্রজাতন্ত্র দিবস পালিত হয়।"
+},
+
+{
+q: "ভারতের সংবিধান কবে কার্যকর হয়?",
+o: ["১৫ আগস্ট ১৯৪৭", "২৬ নভেম্বর ১৯৪৯", "২৬ জানুয়ারি ১৯৫০", "২ অক্টোবর ১৯৫০"],
+a: 2,
+e: "ভারতের সংবিধান ২৬ জানুয়ারি ১৯৫০ সালে কার্যকর হয়।"
+},
+
+{
+q: "ভারতের সংবিধান কবে গৃহীত হয়েছিল?",
+o: ["১৫ আগস্ট ১৯৪৭", "২৬ নভেম্বর ১৯৪৯", "২৬ জানুয়ারি ১৯৫০", "১৫ জানুয়ারি ১৯৫০"],
+a: 1,
+e: "গণপরিষদ ২৬ নভেম্বর ১৯৪৯ সালে সংবিধান গ্রহণ করে।"
+},
+
+{
+q: "আন্তর্জাতিক শুল্ক দিবস (International Customs Day) কবে পালিত হয়?",
+o: ["২৪ জানুয়ারি", "২৫ জানুয়ারি", "২৬ জানুয়ারি", "২৮ জানুয়ারি"],
+a: 2,
+e: "প্রতি বছর ২৬ জানুয়ারি আন্তর্জাতিক শুল্ক দিবস পালিত হয়।"
+},
+
+{
+q: "আন্তর্জাতিক পরিচ্ছন্ন শক্তি দিবস (International Day of Clean Energy) কবে পালিত হয়?",
+o: ["২৪ জানুয়ারি", "২৫ জানুয়ারি", "২৬ জানুয়ারি", "২৭ জানুয়ারি"],
+a: 2,
+e: "জাতিসংঘ ২৬ জানুয়ারিকে আন্তর্জাতিক পরিচ্ছন্ন শক্তি দিবস হিসেবে ঘোষণা করেছে।"
+},
+
+{
+q: "আন্তর্জাতিক হলোকাস্ট স্মরণ দিবস কবে পালিত হয়?",
+o: ["২৫ জানুয়ারি", "২৬ জানুয়ারি", "২৭ জানুয়ারি", "২৮ জানুয়ারি"],
+a: 2,
+e: "২৭ জানুয়ারি হলোকাস্টের শিকারদের স্মরণে আন্তর্জাতিক দিবস পালিত হয়।"
+},
+
+{
+q: "আন্তর্জাতিক শান্তিপূর্ণ সহাবস্থান দিবস (International Day of Peaceful Coexistence) কবে?",
+o: ["২৬ জানুয়ারি", "২৭ জানুয়ারি", "২৮ জানুয়ারি", "৩০ জানুয়ারি"],
+a: 2,
+e: "জাতিসংঘ ২৮ জানুয়ারিকে আন্তর্জাতিক শান্তিপূর্ণ সহাবস্থান দিবস ঘোষণা করেছে।"
+},
+
+{
+q: "ডেটা গোপনীয়তা দিবস (Data Privacy Day) কবে পালিত হয়?",
+o: ["২৬ জানুয়ারি", "২৭ জানুয়ারি", "২৮ জানুয়ারি", "৩০ জানুয়ারি"],
+a: 2,
+e: "২৮ জানুয়ারি Data Privacy Day বা Data Protection Day হিসেবে পরিচিত।"
+},
+
+{
+q: "ভারতে শহিদ দিবস (Martyrs' Day) কবে পালিত হয়?",
+o: ["২৬ জানুয়ারি", "২৭ জানুয়ারি", "২৮ জানুয়ারি", "৩০ জানুয়ারি"],
+a: 3,
+e: "৩০ জানুয়ারি মহাত্মা গান্ধীর মৃত্যুবার্ষিকীতে শহিদ দিবস পালিত হয়।"
+},
+
+{
+q: "বিশ্ব অবহেলিত উষ্ণমণ্ডলীয় রোগ দিবস (World NTD Day) কবে পালিত হয়?",
+o: ["২৭ জানুয়ারি", "২৮ জানুয়ারি", "২৯ জানুয়ারি", "৩০ জানুয়ারি"],
+a: 3,
+e: "৩০ জানুয়ারি World Neglected Tropical Diseases Day পালিত হয়।"
+}
+
+];
+
+let current = 0;
+let score = 0;
+let answered = 0;
+
+const questionText = document.getElementById("questionText");
+const questionNumber = document.getElementById("questionNumber");
+const optionsArea = document.getElementById("optionsArea");
+const feedback = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+
+function renderQuestion() {
+
+  const item = questions[current];
+
+  questionNumber.textContent = "প্রশ্ন " + (current + 1);
+  questionText.textContent = item.q;
+
+  optionsArea.innerHTML = "";
+  feedback.style.display = "none";
+  nextBtn.style.display = "none";
+
+  item.o.forEach((option, index) => {
+
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = String.fromCharCode(65 + index) + ") " + option;
+
+    button.addEventListener("click", () => selectAnswer(index));
+
+    optionsArea.appendChild(button);
+
+  });
+
+  document.getElementById("progressText").textContent =
+    "প্রশ্ন " + (current + 1) + " / " + questions.length;
+
+  document.getElementById("scoreText").textContent =
+    "স্কোর: " + score;
+
+  document.getElementById("answeredText").textContent =
+    "উত্তর দেওয়া হয়েছে: " + answered;
+
+  document.getElementById("progressFill").style.width =
+    (current / questions.length * 100) + "%";
+}
+
+function selectAnswer(selected) {
+
+  const item = questions[current];
+  const buttons = optionsArea.querySelectorAll(".option");
+
+  if (buttons[0].disabled) return;
+
+  answered++;
+
+  buttons.forEach((button, index) => {
+
+    button.disabled = true;
+
+    if (index === item.a) {
+      button.classList.add("correct");
+    }
+
+    if (index === selected && selected !== item.a) {
+      button.classList.add("wrong");
+    }
+
+  });
+
+  if (selected === item.a) {
+
+    score++;
+
+    feedback.innerHTML =
+      "<strong>✓ সঠিক উত্তর!</strong><br>" + item.e;
+
+  } else {
+
+    feedback.innerHTML =
+      "<strong>✗ ভুল উত্তর!</strong><br>" +
+      "সঠিক উত্তর: " + item.o[item.a] +
+      "<br>" + item.e;
+
+  }
+
+  feedback.style.display = "block";
+  nextBtn.style.display = "block";
+
+  document.getElementById("scoreText").textContent =
+    "স্কোর: " + score;
+
+  document.getElementById("answeredText").textContent =
+    "উত্তর দেওয়া হয়েছে: " + answered;
+
+  if (current === questions.length - 1) {
+    nextBtn.textContent = "ফলাফল দেখো";
+  }
+}
+
+function nextQuestion() {
+
+  if (current < questions.length - 1) {
+
+    current++;
+    renderQuestion();
+
+  } else {
+
+    showResult();
+
+  }
+}
+
+function showResult() {
+
+  document.getElementById("quizArea").style.display = "none";
+
+  const resultArea = document.getElementById("resultArea");
+  resultArea.style.display = "block";
+
+  document.getElementById("finalScore").textContent =
+    score + " / " + questions.length;
+
+  const percentage = Math.round(score / questions.length * 100);
+
+  let message = "";
+
+  if (percentage >= 80) {
+    message = "দারুণ ফলাফল! তোমার প্রস্তুতি ভালো হয়েছে।";
+  } else if (percentage >= 50) {
+    message = "ভালো চেষ্টা! আরও একবার অনুশীলন করো।";
+  } else {
+    message = "চিন্তা করো না। আবার পড়ে কুইজটি দাও।";
+  }
+
+  document.getElementById("resultMessage").textContent =
+    message + " তোমার প্রাপ্ত নম্বর " + percentage + "%।";
+
+  document.getElementById("progressFill").style.width = "100%";
+}
+
+function restartQuiz() {
+
+  current = 0;
+  score = 0;
+  answered = 0;
+
+  document.getElementById("quizArea").style.display = "block";
+  document.getElementById("resultArea").style.display = "none";
+
+  nextBtn.textContent = "পরের প্রশ্ন →";
+
+  renderQuestion();
+}
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
